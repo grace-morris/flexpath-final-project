@@ -92,6 +92,7 @@ public class EncounterController {
      * @param principal who is making the request
      * @param authentication the authentication instance for the user
      */
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     public void delete(@PathVariable int id, Principal principal, Authentication authentication) {
         encounterService.delete(id, principal.getName(), AuthorizationHelper.isAdmin(authentication));

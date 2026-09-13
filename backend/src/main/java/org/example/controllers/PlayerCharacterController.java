@@ -44,7 +44,7 @@ public class PlayerCharacterController {
     }
 
     /**
-     * get an character by ID
+     * get a character by ID
      * @param id id of the character
      * @param principal who is making the request
      * @param authentication authentication instance for the user
@@ -61,7 +61,7 @@ public class PlayerCharacterController {
     }
 
     /**
-     * create an character
+     * create a character
      * @param character the character to be created
      * @param principal who is making the request
      * @return the created character
@@ -73,7 +73,7 @@ public class PlayerCharacterController {
     }
 
     /**
-     * update an character
+     * update a character
      * @param id the id of the character
      * @param playerCharacter the character to be updated
      * @param principal who is making the request
@@ -87,12 +87,13 @@ public class PlayerCharacterController {
     }
 
     /**
-     * delete an character
+     * delete a character
      * @param id id of the character
      * @param principal who is making the request
      * @param authentication the authentication instance for the user
      */
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable int id, Principal principal, Authentication authentication) {
         playerCharacterService.delete(id, principal.getName(), AuthorizationHelper.isAdmin(authentication));
     }

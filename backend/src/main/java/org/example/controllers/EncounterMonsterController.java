@@ -4,6 +4,7 @@ import org.example.models.EncounterMonster;
 import org.example.security.AuthorizationHelper;
 import org.example.services.EncounterMonsterService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -67,6 +68,7 @@ public class EncounterMonsterController {
     }
 
     @DeleteMapping("/{monsterId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void remove(@PathVariable int encounterId, @PathVariable int monsterId,
                         Principal principal, Authentication authentication) {
         encounterMonsterService.removeMonster(

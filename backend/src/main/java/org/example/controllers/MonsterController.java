@@ -93,6 +93,7 @@ public class MonsterController {
      * @param authentication the authentication instance for the user
      */
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable int id, Principal principal, Authentication authentication) {
         monsterService.delete(id, principal.getName(), AuthorizationHelper.isAdmin(authentication));
     }
