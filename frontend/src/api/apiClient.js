@@ -22,6 +22,16 @@ async function request(path, { method = "GET", token, body } = {}) {
   if (response.status === 204) {
     return null;
   }
+
+  if (response.status === 401) {
+  localStorage.removeItem("token");
+  localStorage.removeItem("username");
+  localStorage.removeItem("isAdmin");
+  localStorage.setItem("sessionExpired", "true");
+  window.location.href = "/login";
+  throw new Error("Your session expired. Please log in again."); 
+  //if user's token is expired, stop here, do not pass go, go directly to login
+}
   return response.json();
 }
 

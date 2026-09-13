@@ -1,12 +1,63 @@
-//literally just a file to redirect to login
+import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
-function RequireAuth({ children }) {
-  const { auth } = useAuth();
-  if (!auth) {
-    return <Navigate to="/login" replace />;
+/**
+ * check the token's exp claim to see if it's expired
+ */
+function isTokenExpired(token) {
+  try {
+    const payload = token.split(".")[1];
+    const decoded = JSON.parse(atob(payload.replace(/-/g, "+").replace(/_/g, "/")));
+    return typeof decoded.exp === "number" && decoded.exp * 1000 < Date.now();
+  } catch {
+    return true;
   }
+}
+
+/**
+ * reroute to login
+ */
+function RequireAuth({ children }) {
+  const { auth, setAuth } = useAuth();
+
+  const [expired] = useState(() => Boolean(auth) && isTokenExpired(auth.token));
+
+  //check regularly to see if authorization token has expired
+   useEffect(() => {
+    if (!auth || expired) {
+      return;
+    }
+    const expiresAt = getExpiryTime(auth.token);
+    if (expiresAt === null) {
+      return;
+    }
+    const msUntilExpiry = expiresAt - Date.now();
+    if (msUntilExpiry <= 0) {
+      setExpired(true);
+      return;
+    }
+    const timer = setTimeout(() => setExpired(true), msUntilExpiry);
+    return () => clearTimeout(timer);
+  }, [auth, expired]);
+
+  useEffect(() => {
+    if (expired) {
+      setAuth(null);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [expired]);
+
+  if (!auth || expired) {
+    return (
+      <Navigate
+        to="/login"
+        replace
+        state={expired ? { message: "Your session has expired. Please log in again." } : undefined}
+      />
+    );
+  }
+
   return children;
 }
 

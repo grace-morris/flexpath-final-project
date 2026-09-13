@@ -1,23 +1,35 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 const BASE_URL = "/api";
 
 /**
- * Combined login/register screen. Talks directly to the fraho JWT
- * /auth/login endpoint (outside /api) and to POST /api/users for
- * registration (permitAll on the backend), then figures out isAdmin
- * from /api/profile/roles before handing everything to AuthContext.
+ * Combined login/register screen and hands info back to AuthContext
  */
 function LoginPage() {
   const { setAuth } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [mode, setMode] = useState("login"); // "login" | "register"
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+
+
+  /**
+   * see if the session is expired before or during engagement with the site
+   */
+  const [error, setError] = useState(() => {
+    if (location.state?.message) {
+      return location.state.message;
+    }
+    if (localStorage.getItem("sessionExpired") === "true") {
+      localStorage.removeItem("sessionExpired");
+      return "Your session expired. Please log in again.";
+    }
+    return "";
+  });
   const [submitting, setSubmitting] = useState(false);
 
   const logIn = async (username, password) => {
