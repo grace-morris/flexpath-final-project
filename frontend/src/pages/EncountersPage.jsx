@@ -71,16 +71,25 @@ function EncountersPage() {
       ))}
 
       <form className="mt-4" onSubmit={submitForm}>
-        <h4>New encounter</h4>
-        <input className="form-control mb-2" placeholder="Name" value={form.name}
-               onChange={(e) => setForm({ ...form, name: e.target.value })} required />
-        <textarea className="form-control mb-2" placeholder="Description" value={form.description}
-                  onChange={(e) => setForm({ ...form, description: e.target.value })} />
-        <div className="form-check mb-2">
-          <input className="form-check-input" type="checkbox" checked={form.public}
-                 onChange={(e) => setForm({ ...form, public: e.target.checked })} />
-          <label className="form-check-label">Public</label>
+        <h4>Create a New Encounter:</h4>
+
+        <div className="mb-2">
+          <label className="form-label" htmlFor="encounter-name">Name:</label>
+          <input id="encounter-name" className="form-control" value={form.name}
+                 onChange={(e) => setForm({ ...form, name: e.target.value })} required />
         </div>
+
+        <div className="mb-2">
+          <textarea id="encounter-description" className="form-control" value={form.description}
+                    placeholder="Description" onChange={(e) => setForm({ ...form, description: e.target.value })} />
+        </div>
+
+        <div className="form-check mb-3">
+          <input id="encounter-public" className="form-check-input" type="checkbox" checked={form.public}
+                 onChange={(e) => setForm({ ...form, public: e.target.checked })} />
+          <label className="form-check-label" htmlFor="encounter-public">Public</label>
+        </div>
+
         <button className="btn btn-primary" type="submit">Create</button>
       </form>
     </div>

@@ -11,7 +11,7 @@ const emptyForm = {
   armorClass: 10,
   health: 10,
   description: "",
-  isPublic: false,
+  public: false,
 };
 
 function MonstersPage() {
@@ -91,32 +91,53 @@ function MonstersPage() {
       ))}
 
       <form className="mt-4" onSubmit={submitForm}>
-        <h4>{editingId ? "Edit the Existing Monster:" : "Create a New Monster:"}</h4>
-        <label>Give your monster a name...</label>
-        <input className="form-control mb-2" placeholder="Phil" value={form.name}
-               onChange={(e) => setForm({ ...form, name: e.target.value })} required />
-        <label>Type</label>
-        <input className="form-control mb-2" placeholder="(e.g. Undead)" value={form.monsterType}
-               onChange={(e) => setForm({ ...form, monsterType: e.target.value })} required />
-        <label>Challenge Rating</label>
-        <input className="form-control mb-2" type="number" step="0.25" placeholder="Challenge rating"
-               value={form.challengeRating}
-               onChange={(e) => setForm({ ...form, challengeRating: parseFloat(e.target.value) })} />
-        <label>Armor Class</label>
-        <input className="form-control mb-2" type="number" placeholder="Armor class"
-               value={form.armorClass}
-               onChange={(e) => setForm({ ...form, armorClass: parseInt(e.target.value) })} />
-        <label>Max Health</label>
-        <input className="form-control mb-2" type="number" placeholder="10"
-               value={form.health}
-               onChange={(e) => setForm({ ...form, health: parseInt(e.target.value) })} />
-        <textarea className="form-control mb-2" placeholder="Description" value={form.description}
-                  onChange={(e) => setForm({ ...form, description: e.target.value })} />
-        <div className="form-check mb-2">
-          <input className="form-check-input" type="checkbox" checked={form.isPublic}
-                 onChange={(e) => setForm({ ...form, isPublic: e.target.checked })} />
-          <label className="form-check-label">Public</label>
+        <h4>{editingId ? "Edit the Existing Monster: " : "Create a New Monster: "}</h4>
+
+        <div className="mb-2">
+          <label className="form-label" htmlFor="monster-name">Name:</label>
+          <input id="monster-name" className="form-control" value={form.name} placeholder="Phil"
+                 onChange={(e) => setForm({ ...form, name: e.target.value })} required />
         </div>
+
+        <div className="mb-2">
+          <label className="form-label" htmlFor="monster-type">Type:</label>
+          <input id="monster-type" className="form-control" placeholder="e.g. Undead" value={form.monsterType}
+                 onChange={(e) => setForm({ ...form, monsterType: e.target.value })} required />
+        </div>
+
+        <div className="mb-2">
+          <label className="form-label" htmlFor="monster-cr">Challenge Rating:</label>
+          <input id="monster-cr" className="form-control" type="number" step="0.25"
+                 value={form.challengeRating}
+                 onChange={(e) => setForm({ ...form, challengeRating: parseFloat(e.target.value) })} />
+        </div>
+
+        <div className="mb-2">
+          <label className="form-label" htmlFor="monster-ac">Armor Class:</label>
+          <input id="monster-ac" className="form-control" type="number"
+                 value={form.armorClass}
+                 onChange={(e) => setForm({ ...form, armorClass: parseInt(e.target.value) })} />
+        </div>
+
+        <div className="mb-2">
+          <label className="form-label" htmlFor="monster-hp">Max Health</label>
+          <input id="monster-hp" className="form-control" type="number"
+                 value={form.health}
+                 onChange={(e) => setForm({ ...form, health: parseInt(e.target.value) })} />
+        </div>
+
+        <div className="mb-2">
+          <label className="form-label" htmlFor="monster-description">Description</label>
+          <textarea id="monster-description" className="form-control" value={form.description}
+                    onChange={(e) => setForm({ ...form, description: e.target.value })} />
+        </div>
+
+        <div className="form-check mb-3">
+          <input id="monster-public" className="form-check-input" type="checkbox" checked={form.public}
+                 onChange={(e) => setForm({ ...form, public: e.target.checked })} />
+          <label className="form-check-label" htmlFor="monster-public">Public</label>
+        </div>
+
         <button className="btn btn-primary" type="submit">{editingId ? "Save" : "Create"}</button>
       </form>
     </div>
