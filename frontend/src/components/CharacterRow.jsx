@@ -36,7 +36,7 @@ function CharacterRow({ character, encounterId, token, onUpdated, onRemove }) {
         {character.currentHealth} / {character.maxHealth} HP
       </span>
       <button disabled={pending} onClick={() => adjustHealth(1)}>+1</button>
-      <button className="btn btn-sm btn-outline-danger ms-auto" onClick={() => onRemove(participant.id)}>
+      <button className="btn btn-sm btn-outline-danger ms-auto" onClick={() => onRemove(character.id)}>
         Remove
       </button>
     </div>
