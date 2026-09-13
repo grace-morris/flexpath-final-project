@@ -27,6 +27,14 @@ export default defineConfig({
           });
         },
       },
+      // The JWT library's login endpoint lives at /auth/login, outside
+      // /api, so it needs its own proxy entry or the dev server tries to
+      // handle it itself instead of forwarding to Spring Boot.
+      "/auth": {
+        target: "http://localhost:8080/",
+        changeOrigin: false,
+        secure: false,
+      },
     },
   },
 });

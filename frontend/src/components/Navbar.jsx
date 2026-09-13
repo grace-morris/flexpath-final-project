@@ -13,10 +13,14 @@ function Navbar() {
           <Link className="nav-link" to="/characters">Characters</Link>
           <Link className="nav-link" to="/encounters">Encounters</Link>
         </div>
-        {auth && (
+        {auth ? (
           <button className="btn btn-outline-light ms-auto" onClick={() => setAuth(null)}>
             Log out ({auth.username})
           </button>
+        ) : (
+          <Link className="btn btn-outline-light ms-auto" to="/login">
+            Log in
+          </Link>
         )}
       </div>
     </nav>
