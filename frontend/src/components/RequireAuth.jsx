@@ -5,13 +5,13 @@ import { useAuth } from "../context/AuthContext";
 /**
  * check the token's exp claim to see if it's expired
  */
-function isTokenExpired(token) {
+function getExpiryTime(token) {
   try {
     const payload = token.split(".")[1];
     const decoded = JSON.parse(atob(payload.replace(/-/g, "+").replace(/_/g, "/")));
-    return typeof decoded.exp === "number" && decoded.exp * 1000 < Date.now();
+    return typeof decoded.exp === "number" ? decoded.exp * 1000 : null;
   } catch {
-    return true;
+    return null;
   }
 }
 
