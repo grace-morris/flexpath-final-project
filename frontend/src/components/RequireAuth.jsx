@@ -21,7 +21,11 @@ function getExpiryTime(token) {
 function RequireAuth({ children }) {
   const { auth, setAuth } = useAuth();
 
-  const [expired] = useState(() => Boolean(auth) && isTokenExpired(auth.token));
+  const [expired, setExpired] = useState(() => {
+    if (!auth) return false;
+    const expiresAt = getExpiryTime(auth.token);
+    return expiresAt !== null && expiresAt <= Date.now();
+  });
 
   //check regularly to see if authorization token has expired
    useEffect(() => {
