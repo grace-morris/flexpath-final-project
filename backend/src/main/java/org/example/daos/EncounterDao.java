@@ -38,7 +38,7 @@ public class EncounterDao {
      */
     public List<Encounter> getUsersEncounters(String username) {
         try {
-            return jdbcTemplate.query("SELECT * FROM encounters WHERE creatorUsername = ?", this::mapToEncounter, username);
+            return jdbcTemplate.query("SELECT * FROM encounter WHERE creator_username = ?", this::mapToEncounter, username);
         } catch (EmptyResultDataAccessException e) {
             return null;
         }
@@ -131,7 +131,7 @@ public class EncounterDao {
         if (isAdmin) {
             sql.append("1 = 1 ");
         } else {
-            sql.append("(is_public = true OR owner_username = ?) ");
+            sql.append("(is_public = true OR creator_username = ?) ");
             params.add(username);
         }
 
