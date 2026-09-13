@@ -185,7 +185,7 @@ public class PlayerCharacter {
      *
      * @param isPublic the public status
      */
-    public void setIsPublic(boolean isPublic) {
+    public void setPublic(boolean isPublic) {
         this.isPublic = isPublic;
     }
 
