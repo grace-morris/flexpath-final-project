@@ -29,8 +29,8 @@ function MonsterRow({ monster, encounterId, token, onUpdated, onRemove }) {
 
   return (
     <div className="participant-row d-flex align-items-center gap-2 mb-1">
-      <span className="participant-name">{participant.monsterName}</span>
-      <span className="participant-ac">AC {participant.armorClass}</span>
+      <span className="participant-name">{monster.monsterName}</span>
+      <span className="participant-ac">AC {monster.armorClass}</span>
       <button disabled={pending} onClick={() => adjustHealth(-1)}>-1</button>
       <span className="participant-hp">
         {monster.currentHealth} / {monster.maxHealth} HP

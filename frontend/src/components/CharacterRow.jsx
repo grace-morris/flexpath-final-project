@@ -29,13 +29,13 @@ function CharacterRow({ character, encounterId, token, onUpdated, onRemove }) {
 
   return (
     <div className="participant-row d-flex align-items-center gap-2 mb-1">
-      <span className="participant-name">{character.characterName}</span>
+      <span className="participant-name">{character.playerCharacterName}</span>
       <span className="participant-ac">AC {character.armorClass}</span>
       <button disabled={pending} onClick={() => adjustHealth(-1)}>-1</button>
       <span className="participant-hp">
         {character.currentHealth} / {character.maxHealth} HP
       </span>
-      <button disabled={pending} onClick={() => adjustHitPoints(1)}>+1</button>
+      <button disabled={pending} onClick={() => adjustHealth(1)}>+1</button>
       <button className="btn btn-sm btn-outline-danger ms-auto" onClick={() => onRemove(participant.id)}>
         Remove
       </button>

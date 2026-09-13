@@ -18,7 +18,7 @@ import java.util.List;
  */
 @RestController
 @CrossOrigin
-@RequestMapping("/api/playerCharacters")
+@RequestMapping("/api/characters")
 @PreAuthorize("isAuthenticated()")
 public class PlayerCharacterController {
 
@@ -37,7 +37,7 @@ public class PlayerCharacterController {
     @GetMapping
     public List<PlayerCharacter> search(@RequestParam(defaultValue = "") String name,
                                    @RequestParam(defaultValue = "name") String sortBy,
-                                   @RequestParam(defaultValue = "asc") String characterClass, String direction,
+                                   String characterClass, @RequestParam(defaultValue = "asc") String direction,
                                    Principal principal, Authentication authentication) {
         boolean isAdmin = AuthorizationHelper.isAdmin(authentication);
         return playerCharacterService.search(principal.getName(), isAdmin, name, sortBy, characterClass, direction);

@@ -37,7 +37,7 @@ public class MonsterController {
     @GetMapping
     public List<Monster> search(@RequestParam(defaultValue = "") String name,
                                    @RequestParam(defaultValue = "name") String sortBy,
-                                   @RequestParam(defaultValue = "asc") String type, String direction,
+                                   String type, @RequestParam(defaultValue = "asc") String direction,
                                    Principal principal, Authentication authentication) {
         boolean isAdmin = AuthorizationHelper.isAdmin(authentication);
         return monsterService.search(principal.getName(), isAdmin, name, sortBy, type, direction);

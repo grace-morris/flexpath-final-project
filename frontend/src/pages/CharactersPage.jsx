@@ -9,9 +9,9 @@ const emptyForm = {
   characterClass: "",
   level: 1,
   armorClass: 10,
-  hitPoints: 10,
+  health: 10,
   description: "",
-  public: false,
+  isPublic: false,
 };
 
 function CharactersPage() {
@@ -74,7 +74,7 @@ function CharactersPage() {
           { value: "name", label: "name" },
           { value: "level", label: "level" },
           { value: "armor_class", label: "armor class" },
-          { value: "hit_points", label: "hit points" },
+          { value: "health", label: "health" },
         ]}
         sortBy={sortBy}
         onSortByChange={setSortBy}
@@ -94,24 +94,29 @@ function CharactersPage() {
       ))}
 
       <form className="mt-4" onSubmit={submitForm}>
-        <h4>{editingId ? "Edit character" : "New character"}</h4>
-        <input className="form-control mb-2" placeholder="Name" value={form.name}
+        <h4>{editingId ? "Edit the Existing Character:" : "Create a New Character:"}</h4>
+        <label>Give your character a name...</label>
+        <input className="form-control mb-2" placeholder="Aragorn" value={form.name}
                onChange={(e) => setForm({ ...form, name: e.target.value })} required />
+        <label>Class:</label>
         <input className="form-control mb-2" placeholder="Class (e.g. Cleric)" value={form.characterClass}
                onChange={(e) => setForm({ ...form, characterClass: e.target.value })} required />
+        <label>Level: </label>
         <input className="form-control mb-2" type="number" placeholder="Level"
                value={form.level} onChange={(e) => setForm({ ...form, level: parseInt(e.target.value) })} />
-        <input className="form-control mb-2" type="number" placeholder="Armor class"
+        <label>Armor Class</label>
+        <input className="form-control mb-2" type="number" placeholder="10"
                value={form.armorClass}
                onChange={(e) => setForm({ ...form, armorClass: parseInt(e.target.value) })} />
-        <input className="form-control mb-2" type="number" placeholder="Hit points"
-               value={form.hitPoints}
-               onChange={(e) => setForm({ ...form, hitPoints: parseInt(e.target.value) })} />
+        <label>Max Health: </label>
+        <input className="form-control mb-2" type="number" placeholder="10"
+               value={form.health}
+               onChange={(e) => setForm({ ...form, health: parseInt(e.target.value) })} />
         <textarea className="form-control mb-2" placeholder="Description" value={form.description}
                   onChange={(e) => setForm({ ...form, description: e.target.value })} />
         <div className="form-check mb-2">
-          <input className="form-check-input" type="checkbox" checked={form.public}
-                 onChange={(e) => setForm({ ...form, public: e.target.checked })} />
+          <input className="form-check-input" type="checkbox" checked={form.isPublic}
+                 onChange={(e) => setForm({ ...form, isPublic: e.target.checked })} />
           <label className="form-check-label">Public</label>
         </div>
         <button className="btn btn-primary" type="submit">{editingId ? "Save" : "Create"}</button>
