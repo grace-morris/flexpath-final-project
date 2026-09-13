@@ -1,14 +1,24 @@
-import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "./context/AuthContext";
+import Navbar from "./components/Navbar";
+import MonstersPage from "./pages/MonstersPage";
+import CharactersPage from "./pages/CharactersPage";
+import EncountersPage from "./pages/EncountersPage";
+import EncounterDetailPage from "./pages/EncounterDetailsPage";
 
 function App() {
   return (
-    <div>
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-        {/* <p> tag is a placeholder, You'll need to change the tag/component type later*/}
-        <p className="navbar-brand ms-4 nav-link">You've got this!</p>
-      </nav>
-      <hr />
-    </div>
+    <AuthProvider>
+      <BrowserRouter>
+        <Navbar />
+        <Routes>
+          <Route path="/monsters" element={<MonstersPage />} />
+          <Route path="/characters" element={<CharactersPage />} />
+          <Route path="/encounters" element={<EncountersPage />} />
+          <Route path="/encounters/:id" element={<EncounterDetailPage />} />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 

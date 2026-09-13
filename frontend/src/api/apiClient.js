@@ -1,0 +1,34 @@
+const BASE_URL = "/api";
+
+/**
+ * Fetch wrapper to attach the JWT, parse JSON, and
+ * throw bad response so callers can just try/catch
+ */
+async function request(path, { method = "GET", token, body } = {}) {
+  const response = await fetch(`${BASE_URL}${path}`, {
+    method,
+    headers: {
+      "Content-Type": "application/json",
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    },
+    body: body !== undefined ? JSON.stringify(body) : undefined,
+  });
+
+  if (!response.ok) {
+    const message = await response.text();
+    throw new Error(message || `Request to ${path} failed with status ${response.status}`);
+  }
+
+  if (response.status === 204) {
+    return null;
+  }
+  return response.json();
+}
+
+export const api = {
+  get: (path, token) => request(path, { token }),
+  post: (path, token, body) => request(path, { method: "POST", token, body }),
+  put: (path, token, body) => request(path, { method: "PUT", token, body }),
+  patch: (path, token, body) => request(path, { method: "PATCH", token, body }),
+  del: (path, token) => request(path, { method: "DELETE", token }),
+};
