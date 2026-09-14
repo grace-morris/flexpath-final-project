@@ -1,6 +1,7 @@
 package org.example.controllers;
 
 import org.example.models.Encounter;
+import org.example.models.ResultsPage;
 import org.example.security.AuthorizationHelper;
 import org.example.services.EncounterService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,12 +36,12 @@ public class EncounterController {
      * @return list of searched-for encounters
      */
     @GetMapping
-    public List<Encounter> search(@RequestParam(defaultValue = "") String name,
-                                   @RequestParam(defaultValue = "name") String sortBy,
-                                   @RequestParam(defaultValue = "asc") String direction,
+    public ResultsPage<Encounter> search(@RequestParam(defaultValue = "") String name,
+                                   @RequestParam(defaultValue = "name") String sortBy, String visibility,
+                                   @RequestParam(defaultValue = "asc") String direction, int page, int size,
                                    Principal principal, Authentication authentication) {
         boolean isAdmin = AuthorizationHelper.isAdmin(authentication);
-        return encounterService.search(principal.getName(), isAdmin, name, sortBy, direction);
+        return encounterService.search(principal.getName(), isAdmin, name, visibility, sortBy, direction, page, size);
     }
 
     /**

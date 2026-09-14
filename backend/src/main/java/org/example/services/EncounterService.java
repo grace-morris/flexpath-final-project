@@ -3,6 +3,7 @@ package org.example.services;
 import org.example.daos.EncounterDao;
 import org.example.exceptions.DaoException;
 import org.example.models.Encounter;
+import org.example.models.ResultsPage;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
@@ -33,8 +34,8 @@ public class EncounterService {
      * @param direction sort direction
      * @return list of encounters
      */
-    public List<Encounter> search(String username, boolean isAdmin, String name, String sortBy, String direction) {
-        return encounterDao.search(username, isAdmin, name, sortBy, direction);
+    public ResultsPage<Encounter> search(String username, boolean isAdmin, String name, String visibility, String sortBy, String direction, int page, int size) {
+        return encounterDao.search(username, isAdmin, name, visibility, sortBy, direction, page, size);
     }
 
     /**

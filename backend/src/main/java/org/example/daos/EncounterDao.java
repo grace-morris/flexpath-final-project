@@ -2,6 +2,7 @@ package org.example.daos;
 
 import org.example.exceptions.DaoException;
 import org.example.models.Encounter;
+import org.example.models.ResultsPage;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
@@ -57,21 +58,21 @@ public class EncounterDao {
      * Gets encounter by Id
      *
      * @return Encounter with id
-    */
-     public Encounter getEncounterById(int id) {
+     */
+    public Encounter getEncounterById(int id) {
         try {
             return jdbcTemplate.queryForObject("SELECT * FROM encounter WHERE id = ?", this::mapToEncounter, id);
         } catch (EmptyResultDataAccessException e) {
             return null;
         }
-    }   
+    }
 
     /**
      * Create new encounter
      * @param encounter the encounter to be created.
      * @return Encounter the new encounter.
-    */
-     public Encounter create(Encounter encounter) {
+     */
+    public Encounter create(Encounter encounter) {
         String sql = "INSERT INTO encounter (name, description, is_public, creator_username) VALUES (?,?,?,?)";
         jdbcTemplate.update(sql, encounter.getName(), encounter.getDescription(),
                 encounter.isPublic(), encounter.getCreatorUsername());
@@ -83,7 +84,7 @@ public class EncounterDao {
      * Update an encounter
      * @param encounter the encounter to be updated
      * @return Encounter the new encounter.
-    */
+     */
     public Encounter update(Encounter encounter) {
         String sql = "UPDATE encounter SET name = ?, description = ?, is_public = ? WHERE id = ?";
         int rowsAffected = jdbcTemplate.update(sql, encounter.getName(), encounter.getDescription(),
@@ -98,21 +99,30 @@ public class EncounterDao {
      * Delete an encounter
      * @param id the id of the encounter to be deleted
      * @return Encounter the new encounter.
-    */
+     */
     public int delete(int id) {
         return jdbcTemplate.update("DELETE FROM encounter WHERE id = ?", id);
     }
 
     /**
-     * Search for public or user's encounters with a given name
-     * @param id the id of the encounter to be searched for
-     * @return List<Encounter> the list of encounters searched for
-    */    
-    public List<Encounter> search(String username, boolean isAdmin, String name, String sortBy, String direction) {
+     * Search for public or user's encounters with a given name, optionally narrowed to
+     * only public encounters or only the user's own encounters, and paginated so a large
+     * result set doesn't have to be loaded (and rendered) all at once.
+     *
+     * @param username the requesting user
+     * @param isAdmin whether the requesting user is admin
+     * @param name name of the encounter
+     * @param visibility public or private
+     * @param sortBy sorting criteria
+     * @param direction sort direction
+     * @param page page number
+     * @param size how many results per page
+     * @return a page of matching encounters, total matches
+     */
+    public ResultsPage<Encounter> search(String username, boolean isAdmin, String name, String visibility,
+                                         String sortBy, String direction, int page, int size) {
         String sortColumn;
-        if (sortBy.equals("name")) {
-            sortColumn = "name";
-        } else if (sortBy.equals("created_at")) {
+        if (sortBy.equals("created_at")) {
             sortColumn = "created_at";
         } else {
             sortColumn = "name";
@@ -125,24 +135,41 @@ public class EncounterDao {
             sortDirection = "ASC";
         }
 
-        StringBuilder sql = new StringBuilder("SELECT * FROM encounter WHERE ");
+        StringBuilder where = new StringBuilder("WHERE ");
         List<Object> params = new ArrayList<>();
 
-        if (isAdmin) {
-            sql.append("1 = 1 ");
+        if ("public".equalsIgnoreCase(visibility)) {
+            where.append("is_public = true ");
+        } else if ("mine".equalsIgnoreCase(visibility)) {
+            where.append("creator_username = ? ");
+            params.add(username);
+        } else if (isAdmin) {
+            where.append("1 = 1 ");
         } else {
-            sql.append("(is_public = true OR creator_username = ?) ");
+            where.append("(is_public = true OR creator_username = ?) ");
             params.add(username);
         }
 
-        sql.append("AND name LIKE ? ");
+        where.append("AND name LIKE ? ");
         params.add("%" + (name == null ? "" : name) + "%");
 
-        sql.append("ORDER BY ").append(sortColumn).append(" ").append(sortDirection);
+        int safeSize = size < 1 ? 10 : Math.min(size, 100);
+        int safePage = Math.max(page, 0);
 
-        return jdbcTemplate.query(sql.toString(), this::mapToEncounter, params.toArray());
+        String countSql = "SELECT COUNT(*) FROM encounter " + where;
+        Integer totalCount = jdbcTemplate.queryForObject(countSql, Integer.class, params.toArray());
+
+        String sql = "SELECT * FROM encounter " + where
+                + "ORDER BY " + sortColumn + " " + sortDirection + " LIMIT ? OFFSET ?";
+        List<Object> pageParams = new ArrayList<>(params);
+        pageParams.add(safeSize);
+        pageParams.add(safePage * safeSize);
+
+        List<Encounter> items = jdbcTemplate.query(sql, this::mapToEncounter, pageParams.toArray());
+
+        return new ResultsPage<>(items, totalCount == null ? 0 : totalCount);
     }
-   
+
     /**
      * Maps a row in the ResultSet to an Encounter object.
      *

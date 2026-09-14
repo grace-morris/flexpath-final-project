@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-function EncounterCard({ encounter, currentUsername, isAdmin, onDelete }) {
+function EncounterCard({ encounter, currentUsername, isAdmin, onEdit, onDelete }) {
   const canModify = isAdmin || encounter.creatorUsername === currentUsername;
 
   return (
@@ -14,9 +14,14 @@ function EncounterCard({ encounter, currentUsername, isAdmin, onDelete }) {
           {!encounter.public && <span className="badge bg-secondary">Private</span>}
         </div>
         {canModify && (
-          <button className="btn btn-sm btn-outline-danger" onClick={() => onDelete(encounter.id)}>
-            Delete
-          </button>
+          <div>
+            <button className="btn btn-sm btn-outline-primary me-2" onClick={() => onEdit(encounter)}>
+              Edit
+            </button>
+            <button className="btn btn-sm btn-outline-danger" onClick={() => onDelete(encounter.id)}>
+              Delete
+            </button>
+          </div>
         )}
       </div>
     </div>
