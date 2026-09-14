@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { api } from "../api/apiClient";
 import SearchSortBar from "../components/SearchSortBar";
@@ -104,6 +104,10 @@ function EncountersPage() {
 
   return (
     <div className="container mt-3">
+      <Link className="btn btn-link ps-0 mb-2" to="/">
+        ← Back to Home
+      </Link>
+
       <h2>Encounters</h2>
 
       <SearchSortBar

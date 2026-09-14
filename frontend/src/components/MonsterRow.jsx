@@ -2,11 +2,9 @@ import { useEffect, useState } from "react";
 import { api } from "../api/apiClient";
 
 /**
- * One row in the battle tracker's turn order for a monster in the encounter:
- * initiative, health adjustment, reaction toggle, and (if the monster type
- * has any) a legendary-action counter.
+ * One row in the battle tracker's turn order for a monster
  *
- * @param monster the monster (EncounterMonster) to display/change
+ * @param monster the monster to display
  * @param encounterId the id of the encounter
  * @param token the access token
  * @param onUpdated called with the updated monster after a change
@@ -84,13 +82,13 @@ function MonsterRow({ monster, encounterId, token, onUpdated, onRemove }) {
         className="form-control form-control-sm"
         style={{ width: "4.5rem" }}
         type="number"
-        aria-label={`${monster.monsterName} initiative`}
+        aria-label={`${monster.displayName ?? monster.monsterName} initiative`}
         value={initiativeInput}
         disabled={pending}
         onChange={(e) => setInitiativeInput(e.target.value)}
         onBlur={commitInitiative}
       />
-      <span className="participant-name">{monster.monsterName}</span>
+      <span className="participant-name">{monster.displayName ?? monster.monsterName}</span>
       <span className="participant-ac">AC {monster.armorClass}</span>
       <button disabled={pending} onClick={() => adjustHealth(-1)}>-1</button>
       <span className="participant-hp">

@@ -14,15 +14,6 @@ async function request(path, { method = "GET", token, body } = {}) {
     body: body !== undefined ? JSON.stringify(body) : undefined,
   });
 
-  if (!response.ok) {
-    const message = await response.text();
-    throw new Error(message || `Request to ${path} failed with status ${response.status}`);
-  }
-
-  if (response.status === 204) {
-    return null;
-  }
-
   if (response.status === 401) {
   localStorage.removeItem("token");
   localStorage.removeItem("username");
@@ -32,6 +23,16 @@ async function request(path, { method = "GET", token, body } = {}) {
   throw new Error("Your session expired. Please log in again."); 
   //if user's token is expired, stop here, do not pass go, go directly to login
 }
+
+  if (!response.ok) {
+    const message = await response.text();
+    throw new Error(message || `Request to ${path} failed with status ${response.status}`);
+  }
+
+  if (response.status === 204) {
+    return null;
+  }
+  
   return response.json();
 }
 

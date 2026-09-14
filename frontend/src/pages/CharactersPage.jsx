@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { api } from "../api/apiClient";
 import SearchSortBar from "../components/SearchSortBar";
@@ -87,6 +88,10 @@ function CharactersPage() {
 
   return (
     <div className="container mt-3">
+      <Link className="btn btn-link ps-0 mb-2" to="/">
+        ← Back to Home
+      </Link>
+
       <h2>Player Characters</h2>
 
       <SearchSortBar
