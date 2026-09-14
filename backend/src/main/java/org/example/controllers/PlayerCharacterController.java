@@ -47,7 +47,7 @@ public class PlayerCharacterController {
     }
  
     /**
-     * get a character by ID
+     * get a character by id
      * @param id id of the character
      * @param principal who is making the request
      * @param authentication authentication instance for the user

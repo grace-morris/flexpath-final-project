@@ -19,7 +19,7 @@ public class Monster {
     private int legendaryActions;
 
     /**
-     * Creates a new monster.
+     * Creates a new type of monster
      *
      * @param id The id of the monster.
      * @param name the name of the monster.
