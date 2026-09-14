@@ -53,7 +53,7 @@ function LoginPage() {
     const isAdmin = roles.includes("ADMIN");
 
     setAuth({ token, username, isAdmin });
-    navigate("/encounters");
+    navigate("/");
   };
 
   const handleSubmit = async (e) => {
