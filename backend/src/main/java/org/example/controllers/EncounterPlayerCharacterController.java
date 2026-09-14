@@ -26,7 +26,7 @@ public class EncounterPlayerCharacterController {
     private EncounterPlayerCharacterService encounterPlayerCharacterService;
 
     /**
-     * Gets a list of the characters in the encounter
+     * gets a list of the characters in the encounter
      * @param encounterId the id of the encounter
      * @return the list of characters in the encounter
      */
@@ -45,13 +45,13 @@ public class EncounterPlayerCharacterController {
      */
     @PostMapping("/{characterId}")
     public EncounterPlayerCharacter add(@PathVariable int encounterId, @PathVariable int characterId,
-                                 Principal principal, Authentication authentication) {
+                                        Principal principal, Authentication authentication) {
         return encounterPlayerCharacterService.addPlayerCharacter(
                 encounterId, characterId, principal.getName(), AuthorizationHelper.isAdmin(authentication));
     }
 
     /**
-     * Adjusts the character's health
+     * changes the character's health
      * @param encounterId the id of the encounter
      * @param characterId the id of the character
      * @param body maps "currentHealth" to the current health from the request body
@@ -60,18 +60,52 @@ public class EncounterPlayerCharacterController {
      */
     @PatchMapping("/{characterId}/health")
     public EncounterPlayerCharacter updateHealth(@PathVariable int encounterId, @PathVariable int characterId,
-                                             @RequestBody Map<String, Integer> body,
-                                             Principal principal, Authentication authentication) {
-        int newHitPoints = body.get("currentHealth");
+                                                 @RequestBody Map<String, Integer> body,
+                                                 Principal principal, Authentication authentication) {
+        int newHealth = body.get("currentHealth");
         return encounterPlayerCharacterService.updateHealth(
-                encounterId, characterId, newHitPoints, principal.getName(), AuthorizationHelper.isAdmin(authentication));
+                encounterId, characterId, newHealth, principal.getName(), AuthorizationHelper.isAdmin(authentication));
     }
 
     @DeleteMapping("/{characterId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void remove(@PathVariable int encounterId, @PathVariable int characterId,
-                        Principal principal, Authentication authentication) {
+                       Principal principal, Authentication authentication) {
         encounterPlayerCharacterService.removePlayerCharacter(
                 encounterId, characterId, principal.getName(), AuthorizationHelper.isAdmin(authentication));
+    }
+
+    /**
+     * sets initiative order
+     * @param encounterId the id of the encounter
+     * @param characterId the id of the character
+     * @param body maps "initiative" to the new initiative value
+     * @param principal who is making the request
+     * @param authentication authentication instance for the user
+     */
+    @PatchMapping("/{characterId}/initiative")
+    public EncounterPlayerCharacter updateInitiative(@PathVariable int encounterId, @PathVariable int characterId,
+                                                     @RequestBody Map<String, Integer> body,
+                                                     Principal principal, Authentication authentication) {
+        int initiative = body.get("initiative");
+        return encounterPlayerCharacterService.updateInitiative(
+                encounterId, characterId, initiative, principal.getName(), AuthorizationHelper.isAdmin(authentication));
+    }
+
+    /**
+     * toggle for reaction
+     * @param encounterId the id of the encounter
+     * @param characterId the id of the character
+     * @param body maps "usedReaction" to whether the toggle
+     * @param principal who is making the request
+     * @param authentication authentication instance for the user
+     */
+    @PatchMapping("/{characterId}/reaction")
+    public EncounterPlayerCharacter setUsedReaction(@PathVariable int encounterId, @PathVariable int characterId,
+                                                    @RequestBody Map<String, Boolean> body,
+                                                    Principal principal, Authentication authentication) {
+        boolean usedReaction = body.get("usedReaction");
+        return encounterPlayerCharacterService.setUsedReaction(
+                encounterId, characterId, usedReaction, principal.getName(), AuthorizationHelper.isAdmin(authentication));
     }
 }

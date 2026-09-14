@@ -1,8 +1,11 @@
 /**
  * Reused by the Monsters, Characters, and Encounters pages — a search box,
- * an optional second filter (type/class), and a sort field + direction
- * control. onFilterChange is omitted entirely on the Encounters page,
- * which only searches by name.
+ * an optional second filter, and a sort field + direction control.
+ * onFilterChange is omitted entirely on pages with no second filter.
+ *
+ * The second filter renders as a free-text input (Monsters' type, Characters'
+ * class) unless filterOptions is passed, in which case it renders as a
+ * <select> instead (Encounters' public/mine/all visibility filter).
  */
 function SearchSortBar({
   name,
@@ -10,6 +13,7 @@ function SearchSortBar({
   filterLabel,
   filterValue,
   onFilterChange,
+  filterOptions,
   sortOptions,
   sortBy,
   onSortByChange,
@@ -27,7 +31,24 @@ function SearchSortBar({
         />
       </div>
 
-      {onFilterChange && (
+      {onFilterChange && filterOptions && (
+        <div className="col-auto">
+          <select
+            className="form-select"
+            aria-label={filterLabel}
+            value={filterValue}
+            onChange={(e) => onFilterChange(e.target.value)}
+          >
+            {filterOptions.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
+
+      {onFilterChange && !filterOptions && (
         <div className="col-auto">
           <input
             className="form-control"

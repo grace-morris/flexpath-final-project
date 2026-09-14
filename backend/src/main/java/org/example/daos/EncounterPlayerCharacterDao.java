@@ -29,7 +29,7 @@ public class EncounterPlayerCharacterDao {
      */
     public EncounterPlayerCharacter addCharacterToEncounter(int encounterId, int playerCharacterId) {
         String sql = "INSERT INTO encounter_player_character (encounter_id, player_character_id, current_health) " +
-                     "SELECT ?, id, health FROM player_character WHERE id = ?";
+                "SELECT ?, id, health FROM player_character WHERE id = ?";
         int rowsAffected = jdbcTemplate.update(sql, encounterId, playerCharacterId);
         if (rowsAffected == 0) {
             throw new DaoException("Player character not found.");
@@ -44,10 +44,11 @@ public class EncounterPlayerCharacterDao {
      */
     public List<EncounterPlayerCharacter> getByEncounterId(int encounterId) {
         String sql = "SELECT epc.id, epc.encounter_id, epc.player_character_id, epc.current_health, " +
-                     "pc.name AS character_name, pc.armor_class, pc.health AS max_health " +
-                     "FROM encounter_player_character epc " +
-                     "JOIN player_character pc ON epc.player_character_id = pc.id " +
-                     "WHERE epc.encounter_id = ?";
+                "epc.initiative, epc.used_reaction, " +
+                "pc.name AS character_name, pc.armor_class, pc.health AS max_health " +
+                "FROM encounter_player_character epc " +
+                "JOIN player_character pc ON epc.player_character_id = pc.id " +
+                "WHERE epc.encounter_id = ?";
         return jdbcTemplate.query(sql, this::mapToEncounterPC, encounterId);
     }
 
@@ -57,10 +58,11 @@ public class EncounterPlayerCharacterDao {
      */
     public EncounterPlayerCharacter getById(int id) {
         String sql = "SELECT epc.id, epc.encounter_id, epc.player_character_id, epc.current_health, " +
-                     "pc.name AS character_name, pc.armor_class, pc.health AS max_health " +
-                     "FROM encounter_player_character epc " +
-                     "JOIN player_character pc ON epc.player_character_id = pc.id " +
-                     "WHERE epc.id = ?";
+                "epc.initiative, epc.used_reaction, " +
+                "pc.name AS character_name, pc.armor_class, pc.health AS max_health " +
+                "FROM encounter_player_character epc " +
+                "JOIN player_character pc ON epc.player_character_id = pc.id " +
+                "WHERE epc.id = ?";
         try {
             return jdbcTemplate.queryForObject(sql, this::mapToEncounterPC, id);
         } catch (EmptyResultDataAccessException e) {
@@ -75,12 +77,38 @@ public class EncounterPlayerCharacterDao {
      * @param newHealth updated health for the character
      */
     public EncounterPlayerCharacter updateHealth(int id, int newHealth) {
-        EncounterPlayerCharacter participant = getById(id);
-        if (participant == null) {
-            throw new DaoException("Encounter participant not found.");
+        EncounterPlayerCharacter character = getById(id);
+        if (character == null) {
+            throw new DaoException("Character not found.");
         }
-        int clamped = Math.max(0, Math.min(newHealth, participant.getMaxHealth()));
+        int clamped = Math.max(0, Math.min(newHealth, character.getMaxHealth()));
         jdbcTemplate.update("UPDATE encounter_player_character SET current_health = ? WHERE id = ?", clamped, id);
+        return getById(id);
+    }
+
+    /**
+     * Updates the initiative (turn order) of the character in the encounter
+     * @param id the id of the current character in the encounter
+     * @param initiative the new initiative value
+     */
+    public EncounterPlayerCharacter updateInitiative(int id, int initiative) {
+        int rowsAffected = jdbcTemplate.update("UPDATE encounter_player_character SET initiative = ? WHERE id = ?", initiative, id);
+        if (rowsAffected == 0) {
+            throw new DaoException("Character not found.");
+        }
+        return getById(id);
+    }
+
+    /**
+     * Sets whether the character has used its reaction this round
+     * @param id the id of the current character in the encounter
+     * @param usedReaction whether the reaction has been used
+     */
+    public EncounterPlayerCharacter setUsedReaction(int id, boolean usedReaction) {
+        int rowsAffected = jdbcTemplate.update("UPDATE encounter_player_character SET used_reaction = ? WHERE id = ?", usedReaction, id);
+        if (rowsAffected == 0) {
+            throw new DaoException("Character not found.");
+        }
         return getById(id);
     }
 
@@ -90,6 +118,17 @@ public class EncounterPlayerCharacterDao {
      */
     public int remove(int id) {
         return jdbcTemplate.update("DELETE FROM encounter_player_character WHERE id = ?", id);
+    }
+
+    /**
+     * Resets every character's per-round resources (reaction) for an encounter.
+     * Called when the encounter advances to its next round.
+     * @param encounterId the id of the encounter
+     */
+    public void resetRoundState(int encounterId) {
+        jdbcTemplate.update(
+                "UPDATE encounter_player_character SET used_reaction = false WHERE encounter_id = ?",
+                encounterId);
     }
 
     /**
@@ -108,7 +147,9 @@ public class EncounterPlayerCharacterDao {
                 resultSet.getString("character_name"),
                 resultSet.getInt("armor_class"),
                 resultSet.getInt("max_health"),
-                resultSet.getInt("current_health")
+                resultSet.getInt("current_health"),
+                resultSet.getInt("initiative"),
+                resultSet.getBoolean("used_reaction")
         );
     }
 }

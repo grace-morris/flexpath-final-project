@@ -14,20 +14,25 @@ public class EncounterPlayerCharacter {
     private int armorClass;
     private int maxHealth;
     private int currentHealth;
+    private int initiative;
+    private boolean usedReaction;
 
     /**
      * Creates a new character in the encounter.
      *
      * @param id The id of the current character in the encounter.
      * @param encounterId The id of the current encounter.
-     * @param playerCharacterId The id of the character 
+     * @param playerCharacterId The id of the character
      * @param playerCharacterName the name of the character
      * @param armorClass the AC of the character
-     * @param maxHealth the maximum hit points for this character
-     * @param currentHealth the current hit points for the character
+     * @param maxHealth the max health for the character
+     * @param currentHealth the current health of the character
+     * @param initiative the turn order for this character in this encounter
+     * @param usedReaction whether this character has used its reaction this round
      */
-    public EncounterPlayerCharacter(int id, int encounterId, int playerCharacterId, 
-    String playerCharacterName, int armorClass, int maxHealth, int currentHealth) {
+    public EncounterPlayerCharacter(int id, int encounterId, int playerCharacterId,
+                                    String playerCharacterName, int armorClass, int maxHealth, int currentHealth,
+                                    int initiative, boolean usedReaction) {
         this.id = id;
         this.encounterId = encounterId;
         this.playerCharacterId = playerCharacterId;
@@ -35,6 +40,8 @@ public class EncounterPlayerCharacter {
         this.armorClass = armorClass;
         this.maxHealth = maxHealth;
         this.currentHealth = currentHealth;
+        this.initiative = initiative;
+        this.usedReaction = usedReaction;
     }
 
     /**
@@ -116,6 +123,42 @@ public class EncounterPlayerCharacter {
      */
     public void setPlayerCharacterName(String playerCharacterName) {
         this.playerCharacterName = playerCharacterName;
+    }
+
+    /**
+     * Gets the turn order for this character in this encounter.
+     *
+     * @return the initiative value; higher goes first
+     */
+    public int getInitiative() {
+        return initiative;
+    }
+
+    /**
+     * Sets the turn order for this character in this encounter.
+     *
+     * @param initiative the initiative value
+     */
+    public void setInitiative(int initiative) {
+        this.initiative = initiative;
+    }
+
+    /**
+     * Gets whether this character has used its reaction this round.
+     *
+     * @return whether the reaction has been used
+     */
+    public boolean isUsedReaction() {
+        return usedReaction;
+    }
+
+    /**
+     * Sets whether this character has used its reaction this round.
+     *
+     * @param usedReaction whether the reaction has been used
+     */
+    public void setUsedReaction(boolean usedReaction) {
+        this.usedReaction = usedReaction;
     }
 
 }

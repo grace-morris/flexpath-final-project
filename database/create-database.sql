@@ -1,21 +1,21 @@
 drop database if exists flexpath_final;
 create database if not exists flexpath_final;
 use flexpath_final;
-
+ 
 drop table if exists encounter_monster, encounter_player_character, encounter, player_character, monster, roles, users;
-
+ 
 create table users (
     username varchar(255) primary key,
     password varchar(255)
 );
-
+ 
 create table roles (
     username varchar(255) not null,
     role varchar(250) not null,
     primary key (username, role),
     foreign key (username) references users(username) on delete cascade
 );
-
+ 
 -- table to store the different monster types that could be used in a battle
 -- since you can homebrew, the creator's username is referenced
 create table monster (
@@ -29,9 +29,11 @@ create table monster (
     is_public boolean not null default false,
     creator_username varchar(255) not null,
     created_at timestamp default current_timestamp,
+    -- how many legendary actions this monster type gets per round (0 for most monsters)
+    legendary_actions int not null default 0,
     foreign key (creator_username) references users(username) on delete cascade
 );
-
+ 
 -- table to store the different player characters to add to a battle
 -- since this is homebrewed, the creator's username is referenced
 create table player_character (
@@ -47,7 +49,7 @@ create table player_character (
     created_at timestamp default current_timestamp,
     foreign key (creator_username) references users(username) on delete cascade
 );
-
+ 
 -- table to store the encounter
 -- since this can be referenced later by the user, the username is referenced
 create table encounter (
@@ -57,6 +59,8 @@ create table encounter (
     is_public boolean not null default false,
     creator_username varchar(255) not null,
     created_at timestamp default current_timestamp,
+    -- which round of the battle this encounter is currently on
+    current_round int not null default 1,
     foreign key (creator_username) references users(username) on delete cascade
 );
 -- join table for the many/many of encounter and monster
@@ -67,10 +71,17 @@ create table encounter_monster (
     encounter_id int not null,
     monster_id int not null,
     current_health int not null,
+    -- turn order for this monster in this encounter (higher goes first)
+    initiative int not null default 0,
+    -- whether this monster has used its reaction this round; reset on "next round"
+    used_reaction boolean not null default false,
+    -- how many of this monster's legendary actions have been used this round;
+    -- reset to 0 on "next round", capped by monster.legendary_actions
+    legendary_actions_used int not null default 0,
     foreign key (encounter_id) references encounter(id) on delete cascade,
     foreign key (monster_id) references monster(id) on delete cascade
 );
-
+ 
 -- join table for the many/many of encounter and player character
 -- allows for tracking the specifc character's stats in the specific encounter
 -- foreign key references character and encounter id
@@ -79,13 +90,19 @@ create table encounter_player_character (
     encounter_id int not null,
     player_character_id int not null,
     current_health int not null,
+    -- turn order for this character in this encounter (higher goes first)
+    initiative int not null default 0,
+    -- whether this character has used its reaction this round; reset on "next round"
+    used_reaction boolean not null default false,
     foreign key (encounter_id) references encounter(id) on delete cascade,
     foreign key (player_character_id) references player_character(id) on delete cascade
 );
-
-
+ 
+ 
 insert into users (username, password) values ('admin', '$2a$10$tBTfzHzjmQVKza3VSa5lsOX6/iL93xPVLlLXYg2FhT6a.jb1o6VDq');
 insert into roles (username, role) values ('admin', 'ADMIN');
-
+ 
 insert into users (username, password) values ('user', '$2a$10$tBTfzHzjmQVKza3VSa5lsOX6/iL93xPVLlLXYg2FhT6a.jb1o6VDq');
 insert into roles (username, role) values ('user', 'USER');
+ 
+

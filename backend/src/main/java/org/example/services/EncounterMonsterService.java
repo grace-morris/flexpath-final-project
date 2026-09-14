@@ -62,7 +62,7 @@ public class EncounterMonsterService {
      * @return the updated monster
      */
     public EncounterMonster updateHealth(int encounterId, int monsterId, int newHealth,
-                                             String username, boolean isAdmin) {
+                                         String username, boolean isAdmin) {
         canModify(encounterId, username, isAdmin);
         return encounterMonsterDao.updateHealth(monsterId, newHealth);
     }
@@ -77,6 +77,49 @@ public class EncounterMonsterService {
     public void removeMonster(int encounterId, int monsterId, String username, boolean isAdmin) {
         canModify(encounterId, username, isAdmin);
         encounterMonsterDao.remove(monsterId);
+    }
+
+    /**
+     * Update the initiative (turn order) of the monster in the encounter
+     * @param encounterId the id of the encounter
+     * @param monsterId the id of the monster
+     * @param initiative the new initiative value
+     * @param username the username of the user
+     * @param isAdmin whether the user is admin
+     * @return the updated monster
+     */
+    public EncounterMonster updateInitiative(int encounterId, int monsterId, int initiative,
+                                             String username, boolean isAdmin) {
+        canModify(encounterId, username, isAdmin);
+        return encounterMonsterDao.updateInitiative(monsterId, initiative);
+    }
+
+    /**
+     * Toggle whether the monster has used its reaction this round
+     * @param encounterId the id of the encounter
+     * @param monsterId the id of the monster
+     * @param usedReaction whether the reaction has been used
+     * @param username the username of the user
+     * @param isAdmin whether the user is admin
+     * @return the updated monster
+     */
+    public EncounterMonster setUsedReaction(int encounterId, int monsterId, boolean usedReaction,
+                                            String username, boolean isAdmin) {
+        canModify(encounterId, username, isAdmin);
+        return encounterMonsterDao.setUsedReaction(monsterId, usedReaction);
+    }
+
+    /**
+     * Spend one of the monster's legendary actions for this round
+     * @param encounterId the id of the encounter
+     * @param monsterId the id of the monster
+     * @param username the username of the user
+     * @param isAdmin whether the user is admin
+     * @return the updated monster
+     */
+    public EncounterMonster useLegendaryAction(int encounterId, int monsterId, String username, boolean isAdmin) {
+        canModify(encounterId, username, isAdmin);
+        return encounterMonsterDao.useLegendaryAction(monsterId);
     }
 
     /**

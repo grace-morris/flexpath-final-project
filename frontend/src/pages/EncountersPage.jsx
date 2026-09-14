@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { api } from "../api/apiClient";
 import SearchSortBar from "../components/SearchSortBar";
@@ -9,6 +10,7 @@ const PAGE_SIZE = 10;
 
 function EncountersPage() {
   const { auth } = useAuth();
+  const navigate = useNavigate();
   const [encounters, setEncounters] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
   const [name, setName] = useState("");
@@ -65,12 +67,15 @@ function EncountersPage() {
     e.preventDefault();
     if (editingId) {
       await api.put(`/encounters/${editingId}`, auth.token, form);
+      setForm(emptyForm);
+      setEditingId(null);
+      loadEncounters();
     } else {
       await api.post("/encounters", auth.token, form);
+      setForm(emptyForm);
+      // send the user to their encounter list so they can jump right into it
+      navigate("/");
     }
-    setForm(emptyForm);
-    setEditingId(null);
-    loadEncounters();
   };
 
   const startEdit = (encounter) => {

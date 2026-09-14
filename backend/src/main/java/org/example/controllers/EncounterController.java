@@ -1,6 +1,5 @@
-
 package org.example.controllers;
- 
+
 import org.example.models.Encounter;
 import org.example.models.ResultsPage;
 import org.example.security.AuthorizationHelper;
@@ -11,9 +10,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
- 
+
 import java.security.Principal;
- 
+
 /**
  * REST controller for encounters
  */
@@ -22,10 +21,10 @@ import java.security.Principal;
 @RequestMapping("/api/encounters")
 @PreAuthorize("isAuthenticated()")
 public class EncounterController {
- 
+
     @Autowired
     private EncounterService encounterService;
- 
+
     /**
      * search through the encounters
      * @param name name of the encounter
@@ -37,16 +36,16 @@ public class EncounterController {
      */
     @GetMapping
     public ResultsPage<Encounter> search(@RequestParam(defaultValue = "") String name,
-                                   @RequestParam(defaultValue = "name") String sortBy,
-                                   @RequestParam(defaultValue = "all") String visibility,
-                                   @RequestParam(defaultValue = "asc") String direction,
-                                   @RequestParam(defaultValue = "0") int page,
-                                   @RequestParam(defaultValue = "10") int size,
-                                   Principal principal, Authentication authentication) {
+                                         @RequestParam(defaultValue = "name") String sortBy,
+                                         @RequestParam(defaultValue = "all") String visibility,
+                                         @RequestParam(defaultValue = "asc") String direction,
+                                         @RequestParam(defaultValue = "0") int page,
+                                         @RequestParam(defaultValue = "10") int size,
+                                         Principal principal, Authentication authentication) {
         boolean isAdmin = AuthorizationHelper.isAdmin(authentication);
         return encounterService.search(principal.getName(), isAdmin, name, visibility, sortBy, direction, page, size);
     }
- 
+
     /**
      * get an encounter by ID
      * @param id id of the encounter
@@ -63,7 +62,7 @@ public class EncounterController {
         }
         return encounter;
     }
- 
+
     /**
      * create an encounter
      * @param encounter the encounter to be created
@@ -75,7 +74,7 @@ public class EncounterController {
     public Encounter create(@RequestBody Encounter encounter, Principal principal) {
         return encounterService.create(encounter, principal.getName());
     }
- 
+
     /**
      * update an encounter
      * @param id the id of the encounter
@@ -86,10 +85,10 @@ public class EncounterController {
      */
     @PutMapping("/{id}")
     public Encounter update(@PathVariable int id, @RequestBody Encounter encounter,
-                             Principal principal, Authentication authentication) {
+                            Principal principal, Authentication authentication) {
         return encounterService.update(id, encounter, principal.getName(), AuthorizationHelper.isAdmin(authentication));
     }
- 
+
     /**
      * delete an encounter
      * @param id id of the encounter
@@ -101,7 +100,16 @@ public class EncounterController {
     public void delete(@PathVariable int id, Principal principal, Authentication authentication) {
         encounterService.delete(id, principal.getName(), AuthorizationHelper.isAdmin(authentication));
     }
+
+    /**
+     * starts the next round
+     * @param id id of the encounter
+     * @param principal who is making the request
+     * @param authentication the authentication instance for the user
+     * @return the updated encounter
+     */
+    @PostMapping("/{id}/next-round")
+    public Encounter nextRound(@PathVariable int id, Principal principal, Authentication authentication) {
+        return encounterService.nextRound(id, principal.getName(), AuthorizationHelper.isAdmin(authentication));
+    }
 }
- 
-
-

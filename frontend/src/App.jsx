@@ -7,6 +7,7 @@ import MonstersPage from "./pages/MonstersPage";
 import CharactersPage from "./pages/CharactersPage";
 import EncountersPage from "./pages/EncountersPage";
 import EncounterDetailPage from "./pages/EncounterDetailsPage";
+import HomePage from "./pages/HomePage";
 
 function App() {
   return (
@@ -15,6 +16,14 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/login" element={<LoginPage />} />
+          <Route
+            path="/"
+            element={
+              <RequireAuth>
+                <HomePage />
+              </RequireAuth>
+            }
+          />
           <Route
             path="/monsters"
             element={

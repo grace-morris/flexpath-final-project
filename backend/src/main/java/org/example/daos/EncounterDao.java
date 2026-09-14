@@ -18,13 +18,11 @@ import java.util.List;
  */
 @Component
 public class EncounterDao {
-    /**
-     * The JDBC template for querying the database.
-     */
+    
     private final JdbcTemplate jdbcTemplate;
 
     /**
-     * Creates a new user data access object.
+     * Creates a new user datasource object
      *
      * @param dataSource The data source for the DAO.
      */
@@ -33,7 +31,7 @@ public class EncounterDao {
     }
 
     /**
-     * Gets all user's encounters
+     * Gets all the user's encounters
      * @param username the user to get the encounters
      * @return List of Encounters
      */
@@ -55,9 +53,9 @@ public class EncounterDao {
     }
 
     /**
-     * Gets encounter by Id
+     * Gets encounter by id
      *
-     * @return Encounter with id
+     * @return id of the encounter
      */
     public Encounter getEncounterById(int id) {
         try {
@@ -102,6 +100,19 @@ public class EncounterDao {
      */
     public int delete(int id) {
         return jdbcTemplate.update("DELETE FROM encounter WHERE id = ?", id);
+    }
+
+    /**
+     * Advances an encounter to the next round.
+     * @param id the id of the encounter
+     * @return the encounter with its round incremented
+     */
+    public Encounter incrementRound(int id) {
+        int rowsAffected = jdbcTemplate.update("UPDATE encounter SET current_round = current_round + 1 WHERE id = ?", id);
+        if (rowsAffected == 0) {
+            throw new DaoException("Encounter not found.");
+        }
+        return getEncounterById(id);
     }
 
     /**
@@ -185,7 +196,8 @@ public class EncounterDao {
                 resultSet.getString("description"),
                 resultSet.getBoolean("is_public"),
                 resultSet.getString("creator_username"),
-                resultSet.getTimestamp("created_at")
+                resultSet.getTimestamp("created_at"),
+                resultSet.getInt("current_round")
         );
     }
 }

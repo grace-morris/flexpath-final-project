@@ -1,11 +1,14 @@
 package org.example.services;
 
 import org.example.daos.EncounterDao;
+import org.example.daos.EncounterMonsterDao;
+import org.example.daos.EncounterPlayerCharacterDao;
 import org.example.exceptions.DaoException;
 import org.example.models.Encounter;
 import org.example.models.ResultsPage;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 /**
@@ -15,13 +18,20 @@ import org.springframework.stereotype.Service;
 public class EncounterService {
 
     private final EncounterDao encounterDao;
+    private final EncounterMonsterDao encounterMonsterDao;
+    private final EncounterPlayerCharacterDao encounterPlayerCharacterDao;
 
     /**
      * Constructor for the service
      * @param encounterDao the dao for encounters
+     * @param encounterMonsterDao the dao for monsters in an encounter
+     * @param encounterPlayerCharacterDao the dao for characters in an encounter
      */
-    public EncounterService(EncounterDao encounterDao) {
+    public EncounterService(EncounterDao encounterDao, EncounterMonsterDao encounterMonsterDao,
+                            EncounterPlayerCharacterDao encounterPlayerCharacterDao) {
         this.encounterDao = encounterDao;
+        this.encounterMonsterDao = encounterMonsterDao;
+        this.encounterPlayerCharacterDao = encounterPlayerCharacterDao;
     }
 
     /**
@@ -90,6 +100,22 @@ public class EncounterService {
     public void delete(int id, String username, boolean isAdmin) {
         canModify(id, username, isAdmin);
         encounterDao.delete(id);
+    }
+
+    /**
+     * starts the next round
+     * @param id id of the encounter
+     * @param username username of the user
+     * @param isAdmin whether the user is admin
+     * @return the updated encounter
+     */
+    @Transactional
+    public Encounter nextRound(int id, String username, boolean isAdmin) {
+        canModify(id, username, isAdmin);
+        Encounter updated = encounterDao.incrementRound(id);
+        encounterMonsterDao.resetRoundState(id);
+        encounterPlayerCharacterDao.resetRoundState(id);
+        return updated;
     }
 
     /**

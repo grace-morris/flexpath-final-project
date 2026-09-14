@@ -62,7 +62,7 @@ public class EncounterPlayerCharacterService {
      * @return the updated character
      */
     public EncounterPlayerCharacter updateHealth(int encounterId, int characterId, int newHealth,
-                                             String username, boolean isAdmin) {
+                                                 String username, boolean isAdmin) {
         canModify(encounterId, username, isAdmin);
         return encounterPlayerCharacterDao.updateHealth(characterId, newHealth);
     }
@@ -80,7 +80,37 @@ public class EncounterPlayerCharacterService {
     }
 
     /**
-     * Checks ownership of the encounter. 
+     * Update the initiative (turn order) of the character in the encounter
+     * @param encounterId the id of the encounter
+     * @param characterId the id of the character
+     * @param initiative the new initiative value
+     * @param username the username of the user
+     * @param isAdmin whether the user is admin
+     * @return the updated character
+     */
+    public EncounterPlayerCharacter updateInitiative(int encounterId, int characterId, int initiative,
+                                                     String username, boolean isAdmin) {
+        canModify(encounterId, username, isAdmin);
+        return encounterPlayerCharacterDao.updateInitiative(characterId, initiative);
+    }
+
+    /**
+     * Toggle whether the character has used its reaction this round
+     * @param encounterId the id of the encounter
+     * @param characterId the id of the character
+     * @param usedReaction whether the reaction has been used
+     * @param username the username of the user
+     * @param isAdmin whether the user is admin
+     * @return the updated character
+     */
+    public EncounterPlayerCharacter setUsedReaction(int encounterId, int characterId, boolean usedReaction,
+                                                    String username, boolean isAdmin) {
+        canModify(encounterId, username, isAdmin);
+        return encounterPlayerCharacterDao.setUsedReaction(characterId, usedReaction);
+    }
+
+    /**
+     * Checks ownership of the encounter.
      * Chose this approach instead of @Preauthorize because @Preauthorize
      * can't see into the database.
      * @param encounterId the id of the encounter

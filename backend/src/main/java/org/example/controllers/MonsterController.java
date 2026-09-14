@@ -46,7 +46,7 @@ public class MonsterController {
     }
  
     /**
-     * get an monster by ID
+     * get an monster by id
      * @param id id of the monster
      * @param principal who is making the request
      * @param authentication authentication instance for the user

@@ -30,7 +30,7 @@ public class EncounterMonsterDao {
      */
     public EncounterMonster addMonsterToEncounter(int encounterId, int monsterId) {
         String sql = "INSERT INTO encounter_monster (encounter_id, monster_id, current_health) " +
-                     "SELECT ?, id, health FROM monster WHERE id = ?";
+                "SELECT ?, id, health FROM monster WHERE id = ?";
         int rowsAffected = jdbcTemplate.update(sql, encounterId, monsterId);
         if (rowsAffected == 0) {
             throw new DaoException("Monster not found.");
@@ -45,23 +45,27 @@ public class EncounterMonsterDao {
      */
     public List<EncounterMonster> getByEncounterId(int encounterId) {
         String sql = "SELECT em.id, em.encounter_id, em.monster_id, em.current_health, " +
-                     "m.name AS monster_name, m.armor_class, m.health AS max_health " +
-                     "FROM encounter_monster em " +
-                     "JOIN monster m ON em.monster_id = m.id " +
-                     "WHERE em.encounter_id = ?";
+                "em.initiative, em.used_reaction, em.legendary_actions_used, " +
+                "m.name AS monster_name, m.armor_class, m.health AS max_health, " +
+                "m.legendary_actions AS max_legendary_actions " +
+                "FROM encounter_monster em " +
+                "JOIN monster m ON em.monster_id = m.id " +
+                "WHERE em.encounter_id = ?";
         return jdbcTemplate.query(sql, this::mapToEncounterMonster, encounterId);
     }
 
     /**
-     * gets the specific monster in the encounter by ID
+     * gets the specific monster in the encounter by id
      * @param id the id of the current monster in the encounter
      */
     public EncounterMonster getById(int id) {
         String sql = "SELECT em.id, em.encounter_id, em.monster_id, em.current_health, " +
-                     "m.name AS monster_name, m.armor_class, m.health AS max_health " +
-                     "FROM encounter_monster em " +
-                     "JOIN monster m ON em.monster_id = m.id " +
-                     "WHERE em.id = ?";
+                "em.initiative, em.used_reaction, em.legendary_actions_used, " +
+                "m.name AS monster_name, m.armor_class, m.health AS max_health, " +
+                "m.legendary_actions AS max_legendary_actions " +
+                "FROM encounter_monster em " +
+                "JOIN monster m ON em.monster_id = m.id " +
+                "WHERE em.id = ?";
         try {
             return jdbcTemplate.queryForObject(sql, this::mapToEncounterMonster, id);
         } catch (EmptyResultDataAccessException e) {
@@ -85,11 +89,61 @@ public class EncounterMonsterDao {
     }
 
     /**
+     * updates the initiative
+     * @param id the id of the current monster in the encounter
+     * @param initiative the new initiative value
+     */
+    public EncounterMonster updateInitiative(int id, int initiative) {
+        int rowsAffected = jdbcTemplate.update("UPDATE encounter_monster SET initiative = ? WHERE id = ?", initiative, id);
+        if (rowsAffected == 0) {
+            throw new DaoException("Encounter monster not found.");
+        }
+        return getById(id);
+    }
+
+    /**
+     * Sets whether the monster has used its reaction
+     * @param id the id of the current monster in the encounter
+     * @param usedReaction whether the reaction has been used
+     */
+    public EncounterMonster setUsedReaction(int id, boolean usedReaction) {
+        int rowsAffected = jdbcTemplate.update("UPDATE encounter_monster SET used_reaction = ? WHERE id = ?", usedReaction, id);
+        if (rowsAffected == 0) {
+            throw new DaoException("Encounter monster not found.");
+        }
+        return getById(id);
+    }
+
+    /**
+     * Spends one of the monster's legendary actions
+     * @param id the id of the current monster in the encounter
+     */
+    public EncounterMonster useLegendaryAction(int id) {
+        EncounterMonster current = getById(id);
+        if (current == null) {
+            throw new DaoException("Encounter monster not found.");
+        }
+        int updated = Math.max(0, Math.min(current.getLegendaryActionsUsed() + 1, current.getMaxLegendaryActions()));
+        jdbcTemplate.update("UPDATE encounter_monster SET legendary_actions_used = ? WHERE id = ?", updated, id);
+        return getById(id);
+    }
+
+    /**
      * Removes a monster from the encounter
      * @param id the id of the monster to remove
      */
     public int remove(int id) {
         return jdbcTemplate.update("DELETE FROM encounter_monster WHERE id = ?", id);
+    }
+
+    /**
+     * Resets every monster's resources every round
+     * @param encounterId the id of the encounter
+     */
+    public void resetRoundState(int encounterId) {
+        jdbcTemplate.update(
+                "UPDATE encounter_monster SET used_reaction = false, legendary_actions_used = 0 WHERE encounter_id = ?",
+                encounterId);
     }
 
     /**
@@ -108,8 +162,11 @@ public class EncounterMonsterDao {
                 resultSet.getString("monster_name"),
                 resultSet.getInt("armor_class"),
                 resultSet.getInt("max_health"),
-                resultSet.getInt("current_health")
+                resultSet.getInt("current_health"),
+                resultSet.getInt("initiative"),
+                resultSet.getBoolean("used_reaction"),
+                resultSet.getInt("legendary_actions_used"),
+                resultSet.getInt("max_legendary_actions")
         );
     }
 }
-

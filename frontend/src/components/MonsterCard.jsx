@@ -8,6 +8,7 @@ function MonsterCard({ monster, currentUsername, isAdmin, onEdit, onDelete }) {
           <h5 className="card-title mb-0">{monster.name}</h5>
           <p className="card-text mb-0">
             {monster.monsterType} · CR {monster.challengeRating} · AC {monster.armorClass} · {monster.health} HP
+            {monster.legendaryActions > 0 && <> · {monster.legendaryActions} Legendary Actions</>}
           </p>
           {!monster.public && <span className="badge bg-secondary">Private</span>}
         </div>

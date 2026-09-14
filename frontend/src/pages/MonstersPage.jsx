@@ -12,6 +12,7 @@ const emptyForm = {
   health: 10,
   description: "",
   public: false,
+  legendaryActions: 0,
 };
 const PAGE_SIZE = 10;
 
@@ -170,6 +171,13 @@ function MonstersPage() {
           <input id="monster-hp" className="form-control" type="number"
                  value={form.health}
                  onChange={(e) => setForm({ ...form, health: parseInt(e.target.value) })} />
+        </div>
+
+        <div className="mb-2">
+          <label className="form-label" htmlFor="monster-legendary-actions">Legendary Actions</label>
+          <input id="monster-legendary-actions" className="form-control" type="number" min="0"
+                 value={form.legendaryActions}
+                 onChange={(e) => setForm({ ...form, legendaryActions: parseInt(e.target.value) })} />
         </div>
 
         <div className="mb-2">
