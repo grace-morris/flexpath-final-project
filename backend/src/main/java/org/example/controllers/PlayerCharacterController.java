@@ -1,6 +1,8 @@
-package org.example.controllers;
 
+package org.example.controllers;
+ 
 import org.example.models.PlayerCharacter;
+import org.example.models.ResultsPage;
 import org.example.security.AuthorizationHelper;
 import org.example.services.PlayerCharacterService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +11,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-
+ 
 import java.security.Principal;
-import java.util.List;
-
+ 
 /**
  * REST controller for characters
  */
@@ -21,10 +22,10 @@ import java.util.List;
 @RequestMapping("/api/characters")
 @PreAuthorize("isAuthenticated()")
 public class PlayerCharacterController {
-
+ 
     @Autowired
     private PlayerCharacterService playerCharacterService;
-
+ 
     /**
      * search through the characters
      * @param name name of the character
@@ -35,14 +36,16 @@ public class PlayerCharacterController {
      * @return list of searched-for characters
      */
     @GetMapping
-    public List<PlayerCharacter> search(@RequestParam(defaultValue = "") String name,
+    public ResultsPage<PlayerCharacter> search(@RequestParam(defaultValue = "") String name,
                                    @RequestParam(defaultValue = "name") String sortBy,
                                    String characterClass, @RequestParam(defaultValue = "asc") String direction,
+                                   @RequestParam(defaultValue = "0") int page,
+                                   @RequestParam(defaultValue = "10") int size,
                                    Principal principal, Authentication authentication) {
         boolean isAdmin = AuthorizationHelper.isAdmin(authentication);
-        return playerCharacterService.search(principal.getName(), isAdmin, name, sortBy, characterClass, direction);
+        return playerCharacterService.search(principal.getName(), isAdmin, name, sortBy, characterClass, direction, page, size);
     }
-
+ 
     /**
      * get a character by ID
      * @param id id of the character
@@ -59,7 +62,7 @@ public class PlayerCharacterController {
         }
         return playerCharacter;
     }
-
+ 
     /**
      * create a character
      * @param character the character to be created
@@ -71,7 +74,7 @@ public class PlayerCharacterController {
     public PlayerCharacter create(@RequestBody PlayerCharacter playerCharacter, Principal principal) {
         return playerCharacterService.create(playerCharacter, principal.getName());
     }
-
+ 
     /**
      * update a character
      * @param id the id of the character
@@ -85,7 +88,7 @@ public class PlayerCharacterController {
                              Principal principal, Authentication authentication) {
         return playerCharacterService.update(id, playerCharacter, principal.getName(), AuthorizationHelper.isAdmin(authentication));
     }
-
+ 
     /**
      * delete a character
      * @param id id of the character
@@ -98,3 +101,6 @@ public class PlayerCharacterController {
         playerCharacterService.delete(id, principal.getName(), AuthorizationHelper.isAdmin(authentication));
     }
 }
+ 
+
+

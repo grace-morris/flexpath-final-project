@@ -1,5 +1,6 @@
-package org.example.controllers;
 
+package org.example.controllers;
+ 
 import org.example.models.Encounter;
 import org.example.models.ResultsPage;
 import org.example.security.AuthorizationHelper;
@@ -10,10 +11,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-
+ 
 import java.security.Principal;
-import java.util.List;
-
+ 
 /**
  * REST controller for encounters
  */
@@ -22,10 +22,10 @@ import java.util.List;
 @RequestMapping("/api/encounters")
 @PreAuthorize("isAuthenticated()")
 public class EncounterController {
-
+ 
     @Autowired
     private EncounterService encounterService;
-
+ 
     /**
      * search through the encounters
      * @param name name of the encounter
@@ -37,13 +37,16 @@ public class EncounterController {
      */
     @GetMapping
     public ResultsPage<Encounter> search(@RequestParam(defaultValue = "") String name,
-                                   @RequestParam(defaultValue = "name") String sortBy, String visibility,
-                                   @RequestParam(defaultValue = "asc") String direction, int page, int size,
+                                   @RequestParam(defaultValue = "name") String sortBy,
+                                   @RequestParam(defaultValue = "all") String visibility,
+                                   @RequestParam(defaultValue = "asc") String direction,
+                                   @RequestParam(defaultValue = "0") int page,
+                                   @RequestParam(defaultValue = "10") int size,
                                    Principal principal, Authentication authentication) {
         boolean isAdmin = AuthorizationHelper.isAdmin(authentication);
         return encounterService.search(principal.getName(), isAdmin, name, visibility, sortBy, direction, page, size);
     }
-
+ 
     /**
      * get an encounter by ID
      * @param id id of the encounter
@@ -60,7 +63,7 @@ public class EncounterController {
         }
         return encounter;
     }
-
+ 
     /**
      * create an encounter
      * @param encounter the encounter to be created
@@ -72,7 +75,7 @@ public class EncounterController {
     public Encounter create(@RequestBody Encounter encounter, Principal principal) {
         return encounterService.create(encounter, principal.getName());
     }
-
+ 
     /**
      * update an encounter
      * @param id the id of the encounter
@@ -86,7 +89,7 @@ public class EncounterController {
                              Principal principal, Authentication authentication) {
         return encounterService.update(id, encounter, principal.getName(), AuthorizationHelper.isAdmin(authentication));
     }
-
+ 
     /**
      * delete an encounter
      * @param id id of the encounter
@@ -99,3 +102,6 @@ public class EncounterController {
         encounterService.delete(id, principal.getName(), AuthorizationHelper.isAdmin(authentication));
     }
 }
+ 
+
+

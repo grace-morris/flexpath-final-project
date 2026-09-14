@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { api } from "../api/apiClient";
 import SearchSortBar from "../components/SearchSortBar";
@@ -13,27 +13,47 @@ const emptyForm = {
   description: "",
   public: false,
 };
+const PAGE_SIZE = 10;
 
 function MonstersPage() {
   const { auth } = useAuth();
   const [monsters, setMonsters] = useState([]);
+  const [totalCount, setTotalCount] = useState(0);
   const [name, setName] = useState("");
   const [type, setType] = useState("");
   const [sortBy, setSortBy] = useState("name");
   const [direction, setDirection] = useState("asc");
+  const [page, setPage] = useState(0);
   const [form, setForm] = useState(emptyForm);
   const [editingId, setEditingId] = useState(null);
 
   const loadMonsters = async () => {
-    const query = new URLSearchParams({ name, type, sortBy, direction }).toString();
+    const query = new URLSearchParams({ name, type, sortBy, direction, page, size: PAGE_SIZE }).toString();
     const results = await api.get(`/monsters?${query}`, auth.token);
-    setMonsters(results);
+    setMonsters(results.items);
+    setTotalCount(results.totalCount);
   };
 
+  // Tracks the last-loaded filter/sort values so a change to any of them can
+  // reset to page 0 without also firing an extra, wasted load at the old page.
+  const lastFilters = useRef({ name, type, sortBy, direction });
+
   useEffect(() => {
+    const prev = lastFilters.current;
+    const filtersChanged =
+      prev.name !== name || prev.type !== type || prev.sortBy !== sortBy || prev.direction !== direction;
+
+    if (filtersChanged) {
+      lastFilters.current = { name, type, sortBy, direction };
+      if (page !== 0) {
+        setPage(0);
+        return; // the resulting page change re-triggers this effect to load
+      }
+    }
+
     loadMonsters();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [name, type, sortBy, direction]);
+  }, [name, type, sortBy, direction, page]);
 
   const submitForm = async (e) => {
     e.preventDefault();
@@ -56,6 +76,8 @@ function MonstersPage() {
     await api.del(`/monsters/${id}`, auth.token);
     loadMonsters();
   };
+
+  const totalPages = Math.max(Math.ceil(totalCount / PAGE_SIZE), 1);
 
   return (
     <div className="container mt-3">
@@ -89,6 +111,30 @@ function MonstersPage() {
           onDelete={deleteMonster}
         />
       ))}
+
+      {monsters.length === 0 && <p className="text-muted">No monsters found.</p>}
+
+      <nav className="d-flex justify-content-between align-items-center mb-4" aria-label="Monsters pagination">
+        <button
+          className="btn btn-outline-secondary btn-sm"
+          type="button"
+          disabled={page === 0}
+          onClick={() => setPage((p) => Math.max(p - 1, 0))}
+        >
+          Previous
+        </button>
+        <span>
+          Page {page + 1} of {totalPages} ({totalCount} total)
+        </span>
+        <button
+          className="btn btn-outline-secondary btn-sm"
+          type="button"
+          disabled={page + 1 >= totalPages}
+          onClick={() => setPage((p) => p + 1)}
+        >
+          Next
+        </button>
+      </nav>
 
       <form className="mt-4" onSubmit={submitForm}>
         <h4>{editingId ? "Edit the Existing Monster: " : "Create a New Monster: "}</h4>

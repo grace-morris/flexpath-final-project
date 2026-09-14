@@ -1,6 +1,7 @@
 package org.example.controllers;
-
+ 
 import org.example.models.Monster;
+import org.example.models.ResultsPage;
 import org.example.security.AuthorizationHelper;
 import org.example.services.MonsterService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +10,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-
+ 
 import java.security.Principal;
-import java.util.List;
-
+ 
 /**
  * REST controller for monsters
  */
@@ -21,10 +21,10 @@ import java.util.List;
 @RequestMapping("/api/monsters")
 @PreAuthorize("isAuthenticated()")
 public class MonsterController {
-
+ 
     @Autowired
     private MonsterService monsterService;
-
+ 
     /**
      * search through the monsters
      * @param name name of the monster
@@ -35,14 +35,16 @@ public class MonsterController {
      * @return list of searched-for monsters
      */
     @GetMapping
-    public List<Monster> search(@RequestParam(defaultValue = "") String name,
+    public ResultsPage<Monster> search(@RequestParam(defaultValue = "") String name,
                                    @RequestParam(defaultValue = "name") String sortBy,
                                    String type, @RequestParam(defaultValue = "asc") String direction,
+                                   @RequestParam(defaultValue = "0") int page,
+                                   @RequestParam(defaultValue = "10") int size,
                                    Principal principal, Authentication authentication) {
         boolean isAdmin = AuthorizationHelper.isAdmin(authentication);
-        return monsterService.search(principal.getName(), isAdmin, name, sortBy, type, direction);
+        return monsterService.search(principal.getName(), isAdmin, name, sortBy, type, direction, page, size);
     }
-
+ 
     /**
      * get an monster by ID
      * @param id id of the monster
@@ -59,7 +61,7 @@ public class MonsterController {
         }
         return monster;
     }
-
+ 
     /**
      * create an monster
      * @param monster the monster to be created
@@ -71,7 +73,7 @@ public class MonsterController {
     public Monster create(@RequestBody Monster monster, Principal principal) {
         return monsterService.create(monster, principal.getName());
     }
-
+ 
     /**
      * update an monster
      * @param id the id of the monster
@@ -85,7 +87,7 @@ public class MonsterController {
                              Principal principal, Authentication authentication) {
         return monsterService.update(id, monster, principal.getName(), AuthorizationHelper.isAdmin(authentication));
     }
-
+ 
     /**
      * delete an monster
      * @param id id of the monster
@@ -98,3 +100,6 @@ public class MonsterController {
         monsterService.delete(id, principal.getName(), AuthorizationHelper.isAdmin(authentication));
     }
 }
+ 
+
+

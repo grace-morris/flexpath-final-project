@@ -1,21 +1,20 @@
 package org.example.services;
-
+ 
 import org.example.daos.PlayerCharacterDao;
 import org.example.exceptions.DaoException;
 import org.example.models.PlayerCharacter;
+import org.example.models.ResultsPage;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-
+ 
 /**
  * Ownership rules for characters
  */
 @Service
 public class PlayerCharacterService {
-
+ 
     private final PlayerCharacterDao playerCharacterDao;
-
+ 
     /**
      * Constructor for the service
      * @param PlayerCharacterDao the dao for playerCharacters
@@ -23,7 +22,7 @@ public class PlayerCharacterService {
     public PlayerCharacterService(PlayerCharacterDao playerCharacterDao) {
         this.playerCharacterDao = playerCharacterDao;
     }
-
+ 
     /**
      * search through the characters
      * @param username username of the user
@@ -32,12 +31,15 @@ public class PlayerCharacterService {
      * @param sortBy sorting criteria
      * @param characterClass the class of character
      * @param direction sort direction
-     * @return list of characters
+     * @param page zero-indexed page number
+     * @param size how many results per page
+     * @return a page of characters plus the total number of matches
      */
-    public List<PlayerCharacter> search(String username, boolean isAdmin, String name, String sortBy, String characterClass, String direction) {
-        return playerCharacterDao.search(username, isAdmin, name, sortBy, characterClass, direction);
+    public ResultsPage<PlayerCharacter> search(String username, boolean isAdmin, String name, String sortBy,
+                                                String characterClass, String direction, int page, int size) {
+        return playerCharacterDao.search(username, isAdmin, name, sortBy, characterClass, direction, page, size);
     }
-
+ 
     /**
      * gets whether the character is visible to the current user
      * @param id id of the character
@@ -55,7 +57,7 @@ public class PlayerCharacterService {
         }
         return playerCharacter;
     }
-
+ 
     /**
      * create an character
      * @param playerCharacter the character to be created
@@ -66,7 +68,7 @@ public class PlayerCharacterService {
         playerCharacter.setCreatorUsername(username);
         return playerCharacterDao.create(playerCharacter);
     }
-
+ 
     /**
      * update an character
      * @param id id of the character to update
@@ -81,7 +83,7 @@ public class PlayerCharacterService {
         playerCharacter.setCreatorUsername(existing.getCreatorUsername());
         return playerCharacterDao.update(playerCharacter);
     }
-
+ 
     /**
      * delete an character
      * @param id id of the character
@@ -92,7 +94,7 @@ public class PlayerCharacterService {
         canModify(id, username, isAdmin);
         playerCharacterDao.delete(id);
     }
-
+ 
     /**
      * whether the user can modify the character
      * @param id id of the character
@@ -111,3 +113,6 @@ public class PlayerCharacterService {
         return existing;
     }
 }
+ 
+
+

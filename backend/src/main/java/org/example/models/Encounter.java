@@ -1,6 +1,6 @@
 package org.example.models;
 import java.sql.Timestamp;
-
+ 
 /**
  * Model class for a monster in an encounter.
  */
@@ -12,7 +12,7 @@ public class Encounter {
     private boolean isPublic;
     private String creatorUsername;
     private Timestamp createdAt;
-
+ 
     /**
      * Creates a new monster in the encounter.
      *
@@ -32,7 +32,7 @@ public class Encounter {
         this.creatorUsername = creatorUsername;
         this.createdAt = createdAt;
     }
-
+ 
     /**
      * Gets the id of the current encounter.
      *
@@ -41,8 +41,8 @@ public class Encounter {
     public int getId() {
         return id;
     }
-
-
+ 
+ 
     /**
      * Sets the id of the encounter
      *
@@ -51,7 +51,7 @@ public class Encounter {
     public void setId(int id) {
         this.id = id;
     }
-
+ 
     /**
      * Gets the name of the encounter.
      *
@@ -60,8 +60,8 @@ public class Encounter {
     public String getName() {
         return name;
     }
-
-
+ 
+ 
     /**
      * Sets the name of the encounter.
      *
@@ -70,7 +70,7 @@ public class Encounter {
     public void setName(String name) {
         this.name = name;
     }
-
+ 
     /**
      * Gets the description of the encounter.
      *
@@ -79,8 +79,8 @@ public class Encounter {
     public String getDescription() {
         return description;
     }
-
-
+ 
+ 
     /**
      * Sets the description of the encounter.
      *
@@ -89,7 +89,7 @@ public class Encounter {
     public void setDescription(String description) {
         this.description = description;
     }
-
+ 
     /**
      * Gets whether the encounter is public
      *
@@ -98,17 +98,17 @@ public class Encounter {
     public boolean isPublic() {
         return isPublic;
     }
-
-
+ 
+ 
     /**
      * Sets whether the encounter is public
      *
      * @param isPublic the public status
      */
-    public void setIsPublic(boolean isPublic) {
+    public void setPublic(boolean isPublic) {
         this.isPublic = isPublic;
     }
-
+ 
     /**
      * Gets the username of the creator.
      *
@@ -117,7 +117,7 @@ public class Encounter {
     public String getCreatorUsername() {
         return creatorUsername;
     }
-
+ 
     /**
      * Sets the username of the creator,
      *
@@ -126,7 +126,7 @@ public class Encounter {
     public void setCreatorUsername(String username) {
         this.creatorUsername = username;
     }
-
+ 
     /**
      * Gets the time the encounter was created.
      *
@@ -135,7 +135,7 @@ public class Encounter {
     public Timestamp getCreationTime() {
         return createdAt;
     }
-
+ 
     /**
      * Sets the creation time.
      *
@@ -144,5 +144,8 @@ public class Encounter {
     public void setCreationTime(Timestamp createdAt) {
         this.createdAt = createdAt;
     }
-
+ 
 }
+ 
+
+

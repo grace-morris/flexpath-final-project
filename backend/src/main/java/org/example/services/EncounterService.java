@@ -7,7 +7,6 @@ import org.example.models.ResultsPage;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
 /**
  * Ownership rules for encounters

@@ -1,6 +1,6 @@
 package org.example.models;
 import java.sql.Timestamp;
-
+ 
 /**
  * Model class for a monster
  */
@@ -16,7 +16,7 @@ public class Monster {
     private boolean isPublic;
     private String creatorUsername;
     private Timestamp createdAt;
-
+ 
     /**
      * Creates a new monster.
      *
@@ -44,7 +44,7 @@ public class Monster {
         this.creatorUsername = creatorUsername;
         this.createdAt = createdAt;
     }
-
+ 
     /**
      * Gets the id of the current monster.
      *
@@ -53,7 +53,7 @@ public class Monster {
     public int getId() {
         return id;
     }
-
+ 
     /**
      * Sets the id of the monster.
      *
@@ -62,7 +62,7 @@ public class Monster {
     public void setId(int id) {
         this.id = id;
     }
-
+ 
     /**
      * Gets the name of the monster.
      *
@@ -71,7 +71,7 @@ public class Monster {
     public String getName() {
         return name;
     }
-
+ 
     /**
      * Sets the name of the monster.
      *
@@ -80,7 +80,7 @@ public class Monster {
     public void setName(String name) {
         this.name = name;
     }
-
+ 
     /**
      * Gets the type of the monster.
      *
@@ -89,7 +89,7 @@ public class Monster {
     public String getMonsterType() {
         return monsterType;
     }
-
+ 
     /**
      * Sets the type of the monster.
      *
@@ -98,7 +98,7 @@ public class Monster {
     public void setMonsterType(String monsterType) {
         this.monsterType = monsterType;
     }
-
+ 
     /**
      * Gets the level of the current monster.
      *
@@ -107,7 +107,7 @@ public class Monster {
     public double getChallengeRating() {
         return challengeRating;
     }
-
+ 
     /**
      * Sets the level of the monster.
      *
@@ -116,7 +116,7 @@ public class Monster {
     public void setChallengeRating(double challengeRating) {
         this.challengeRating = challengeRating;
     }
-
+ 
     /**
      * Gets the armor class of the current monster.
      *
@@ -125,7 +125,7 @@ public class Monster {
     public int getArmorClass() {
         return armorClass;
     }
-
+ 
     /**
      * Sets the armor class of the monster.
      *
@@ -134,7 +134,7 @@ public class Monster {
     public void setArmorClass(int armorClass) {
         this.armorClass = armorClass;
     }
-
+ 
     /**
      * Gets the max health of the monster.
      *
@@ -143,7 +143,7 @@ public class Monster {
     public int getHealth() {
         return health;
     }
-
+ 
     /**
      * Sets the health of the monster.
      *
@@ -152,7 +152,7 @@ public class Monster {
     public void setHealth(int health) {
         this.health = health;
     }
-
+ 
     /**
      * Gets the description of the monster.
      *
@@ -161,7 +161,7 @@ public class Monster {
     public String getDescription() {
         return description;
     }
-
+ 
     /**
      * Sets the description of the monster
      *
@@ -170,7 +170,7 @@ public class Monster {
     public void setDescription(String description) {
         this.description = description;
     }
-
+ 
     /**
      * Gets whether the monster is public
      *
@@ -179,17 +179,17 @@ public class Monster {
     public boolean isPublic() {
         return isPublic;
     }
-
-
+ 
+ 
     /**
      * Sets whether the monster is public
      *
      * @param isPublic the public status
      */
-    public void setIsPublic(boolean isPublic) {
+    public void setPublic(boolean isPublic) {
         this.isPublic = isPublic;
     }
-
+ 
     /**
      * Gets the username of the creator.
      *
@@ -198,7 +198,7 @@ public class Monster {
     public String getCreatorUsername() {
         return creatorUsername;
     }
-
+ 
     /**
      * Sets the username of the creator,
      *
@@ -207,7 +207,7 @@ public class Monster {
     public void setCreatorUsername(String username) {
         this.creatorUsername = username;
     }
-
+ 
     /**
      * Gets the time the monster was created.
      *
@@ -216,7 +216,7 @@ public class Monster {
     public Timestamp getCreationTime() {
         return createdAt;
     }
-
+ 
     /**
      * Sets the creation time.
      *
@@ -225,5 +225,8 @@ public class Monster {
     public void setCreationTime(Timestamp createdAt) {
         this.createdAt = createdAt;
     }
-
+ 
 }
+ 
+
+

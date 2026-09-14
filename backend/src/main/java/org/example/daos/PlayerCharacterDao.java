@@ -1,29 +1,31 @@
-package org.example.daos;
 
+package org.example.daos;
+ 
 import org.example.exceptions.DaoException;
 import org.example.models.PlayerCharacter;
+import org.example.models.ResultsPage;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
-
+ 
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
+ 
 /**
  * Data access object for player characters
  */
 @Component
 public class PlayerCharacterDao {
-
+ 
     private final JdbcTemplate jdbcTemplate;
-
+ 
     public PlayerCharacterDao(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
-
+ 
     /**
      * Get the character by id
      * @param id the id of the character to find
@@ -36,7 +38,7 @@ public class PlayerCharacterDao {
             return null;
         }
     }
-
+ 
     /**
      * Add a PC to the database
      * @param character the character to add
@@ -51,7 +53,7 @@ public class PlayerCharacterDao {
         int newId = jdbcTemplate.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
         return getCharacterById(newId);
     }
-
+ 
     /**
      * Update a PC in the database
      * @param character the character instance to update
@@ -68,7 +70,7 @@ public class PlayerCharacterDao {
         }
         return getCharacterById(character.getId());
     }
-
+ 
     /**
      * Delete a character from the database
      * @param id the id of the character to delete
@@ -77,17 +79,22 @@ public class PlayerCharacterDao {
     public int delete(int id) {
         return jdbcTemplate.update("DELETE FROM player_character WHERE id = ?", id);
     }
-
+ 
     /**
-     * Search for public or user's monsters with a given name
+     * Search for public or user's characters with a given name, paginated so a large
+     * result set doesn't have to be loaded (and rendered) all at once.
      * @param username user's username
      * @param isAdmin if the user is admin
      * @param name the name of the character
      * @param sortBy sorting criteria
      * @param characterClass class of the character
-     * @return List<Monster> the list of characters.
-    */    
-    public List<PlayerCharacter> search(String username, boolean isAdmin, String name, String sortBy, String characterClass, String direction) {
+     * @param direction sort direction
+     * @param page zero-indexed page number
+     * @param size how many results per page
+     * @return a page of matching characters plus the total number of matches
+    */
+    public ResultsPage<PlayerCharacter> search(String username, boolean isAdmin, String name, String sortBy,
+                                                String characterClass, String direction, int page, int size) {
         String sortColumn;
         if (sortBy.equals("name")) {
             sortColumn = "name";
@@ -96,35 +103,47 @@ public class PlayerCharacterDao {
         } else {
             sortColumn = "name";
         }
-
+ 
         String sortDirection;
         if (direction.equalsIgnoreCase("desc")) {
             sortDirection = "DESC";
         } else {
             sortDirection = "ASC";
         }
-
-        StringBuilder sql = new StringBuilder("SELECT * FROM player_character WHERE ");
+ 
+        StringBuilder where = new StringBuilder("WHERE ");
         List<Object> params = new ArrayList<>();
-
+ 
         if (isAdmin) { //if admin can access all characters
-            sql.append("1 = 1 ");
+            where.append("1 = 1 ");
         } else {
-            sql.append("(is_public = true OR creator_username = ?) ");
+            where.append("(is_public = true OR creator_username = ?) ");
             params.add(username);
         }
-
-        sql.append("AND name LIKE ? ");
+ 
+        where.append("AND name LIKE ? ");
         params.add("%" + (name == null ? "" : name) + "%");
-
+ 
         if (characterClass != null && !characterClass.isBlank()) {
-            sql.append("AND character_class = ? ");
+            where.append("AND character_class = ? ");
             params.add(characterClass);
         }
-
-        sql.append("ORDER BY ").append(sortColumn).append(" ").append(sortDirection);
-
-        return jdbcTemplate.query(sql.toString(), this::mapToPC, params.toArray());
+ 
+        int safeSize = size < 1 ? 10 : Math.min(size, 100);
+        int safePage = Math.max(page, 0);
+ 
+        String countSql = "SELECT COUNT(*) FROM player_character " + where;
+        Integer totalCount = jdbcTemplate.queryForObject(countSql, Integer.class, params.toArray());
+ 
+        String sql = "SELECT * FROM player_character " + where
+                + "ORDER BY " + sortColumn + " " + sortDirection + " LIMIT ? OFFSET ?";
+        List<Object> pageParams = new ArrayList<>(params);
+        pageParams.add(safeSize);
+        pageParams.add(safePage * safeSize);
+ 
+        List<PlayerCharacter> items = jdbcTemplate.query(sql, this::mapToPC, pageParams.toArray());
+ 
+        return new ResultsPage<>(items, totalCount == null ? 0 : totalCount);
     }
    
     /**
@@ -150,3 +169,6 @@ public class PlayerCharacterDao {
         );
     }
 }
+ 
+
+

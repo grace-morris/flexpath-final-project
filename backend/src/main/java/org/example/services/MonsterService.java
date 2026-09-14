@@ -1,21 +1,20 @@
 package org.example.services;
-
+ 
 import org.example.daos.MonsterDao;
 import org.example.exceptions.DaoException;
 import org.example.models.Monster;
+import org.example.models.ResultsPage;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-
+ 
 /**
  * Ownership rules for monsters
  */
 @Service
 public class MonsterService {
-
+ 
     private final MonsterDao monsterDao;
-
+ 
     /**
      * Constructor for the service
      * @param MonsterDao the dao for monsters
@@ -23,7 +22,7 @@ public class MonsterService {
     public MonsterService(MonsterDao monsterDao) {
         this.monsterDao = monsterDao;
     }
-
+ 
     /**
      * search through the monsters
      * @param username username of the user
@@ -32,12 +31,15 @@ public class MonsterService {
      * @param sortBy sorting criteria
      * @param type the type of monster
      * @param direction sort direction
-     * @return list of monsters
+     * @param page zero-indexed page number
+     * @param size how many results per page
+     * @return a page of monsters plus the total number of matches
      */
-    public List<Monster> search(String username, boolean isAdmin, String name, String sortBy, String type, String direction) {
-        return monsterDao.search(username, isAdmin, name, sortBy, type, direction);
+    public ResultsPage<Monster> search(String username, boolean isAdmin, String name, String sortBy,
+                                        String type, String direction, int page, int size) {
+        return monsterDao.search(username, isAdmin, name, sortBy, type, direction, page, size);
     }
-
+ 
     /**
      * gets whether the monster is visible to the current user
      * @param id id of the monster
@@ -55,7 +57,7 @@ public class MonsterService {
         }
         return monster;
     }
-
+ 
     /**
      * create an monster
      * @param monster the monster to be created
@@ -66,7 +68,7 @@ public class MonsterService {
         monster.setCreatorUsername(username);
         return monsterDao.create(monster);
     }
-
+ 
     /**
      * update an monster
      * @param id id of the monster to update
@@ -81,7 +83,7 @@ public class MonsterService {
         monster.setCreatorUsername(existing.getCreatorUsername());
         return monsterDao.update(monster);
     }
-
+ 
     /**
      * delete an monster
      * @param id id of the monster
@@ -92,7 +94,7 @@ public class MonsterService {
         canModify(id, username, isAdmin);
         monsterDao.delete(id);
     }
-
+ 
     /**
      * whether the user can modify the monster
      * @param id id of the monster
@@ -111,3 +113,6 @@ public class MonsterService {
         return existing;
     }
 }
+ 
+
+

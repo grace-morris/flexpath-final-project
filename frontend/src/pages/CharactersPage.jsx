@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { api } from "../api/apiClient";
 import SearchSortBar from "../components/SearchSortBar";
@@ -13,30 +13,53 @@ const emptyForm = {
   description: "",
   public: false,
 };
+const PAGE_SIZE = 10;
 
 function CharactersPage() {
   const { auth } = useAuth();
   const [characters, setCharacters] = useState([]);
+  const [totalCount, setTotalCount] = useState(0);
   const [name, setName] = useState("");
   const [characterClass, setCharacterClass] = useState("");
   const [sortBy, setSortBy] = useState("name");
   const [direction, setDirection] = useState("asc");
+  const [page, setPage] = useState(0);
   const [form, setForm] = useState(emptyForm);
   const [editingId, setEditingId] = useState(null);
 
   /**
-   * Load the initial characters on screen
+   * Load the current page of characters matching the search/filter/sort state
    */
   const loadCharacters = async () => {
-    const query = new URLSearchParams({ name, characterClass, sortBy, direction }).toString();
+    const query = new URLSearchParams({ name, characterClass, sortBy, direction, page, size: PAGE_SIZE }).toString();
     const results = await api.get(`/characters?${query}`, auth.token);
-    setCharacters(results);
+    setCharacters(results.items);
+    setTotalCount(results.totalCount);
   };
 
+  // Tracks the last-loaded filter/sort values so a change to any of them can
+  // reset to page 0 without also firing an extra, wasted load at the old page.
+  const lastFilters = useRef({ name, characterClass, sortBy, direction });
+
   useEffect(() => {
+    const prev = lastFilters.current;
+    const filtersChanged =
+      prev.name !== name ||
+      prev.characterClass !== characterClass ||
+      prev.sortBy !== sortBy ||
+      prev.direction !== direction;
+
+    if (filtersChanged) {
+      lastFilters.current = { name, characterClass, sortBy, direction };
+      if (page !== 0) {
+        setPage(0);
+        return; // the resulting page change re-triggers this effect to load
+      }
+    }
+
     loadCharacters();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [name, characterClass, sortBy, direction]);
+  }, [name, characterClass, sortBy, direction, page]);
 
   const submitForm = async (e) => {
     e.preventDefault();
@@ -59,6 +82,8 @@ function CharactersPage() {
     await api.del(`/characters/${id}`, auth.token);
     loadCharacters();
   };
+
+  const totalPages = Math.max(Math.ceil(totalCount / PAGE_SIZE), 1);
 
   return (
     <div className="container mt-3">
@@ -92,6 +117,30 @@ function CharactersPage() {
           onDelete={deleteCharacter}
         />
       ))}
+
+      {characters.length === 0 && <p className="text-muted">No characters found.</p>}
+
+      <nav className="d-flex justify-content-between align-items-center mb-4" aria-label="Characters pagination">
+        <button
+          className="btn btn-outline-secondary btn-sm"
+          type="button"
+          disabled={page === 0}
+          onClick={() => setPage((p) => Math.max(p - 1, 0))}
+        >
+          Previous
+        </button>
+        <span>
+          Page {page + 1} of {totalPages} ({totalCount} total)
+        </span>
+        <button
+          className="btn btn-outline-secondary btn-sm"
+          type="button"
+          disabled={page + 1 >= totalPages}
+          onClick={() => setPage((p) => p + 1)}
+        >
+          Next
+        </button>
+      </nav>
 
       <form className="mt-4" onSubmit={submitForm}>
         <h4>{editingId ? "Edit an Existing Character:" : "Create a New Character:"}</h4>
