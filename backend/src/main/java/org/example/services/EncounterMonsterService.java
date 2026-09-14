@@ -11,8 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * Determines the actions of the admin (add, damage/heal, or remove)
- * and not regular users
+ * Determines the actions of the admin (add, damage/heal, or remove) and not regular users
  */
 @Service
 public class EncounterMonsterService {

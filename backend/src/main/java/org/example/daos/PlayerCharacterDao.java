@@ -27,7 +27,7 @@ public class PlayerCharacterDao {
     }
  
     /**
-     * Get the character by id
+     * get the character by id
      * @param id the id of the character to find
      * @return the character with that id
      */
@@ -40,7 +40,7 @@ public class PlayerCharacterDao {
     }
  
     /**
-     * Add a PC to the database
+     * add a PC to the database
      * @param character the character to add
      * @return the added character
      */
@@ -55,7 +55,7 @@ public class PlayerCharacterDao {
     }
  
     /**
-     * Update a PC in the database
+     * update a PC in the database
      * @param character the character instance to update
      * @return the updated character
      */
@@ -72,7 +72,7 @@ public class PlayerCharacterDao {
     }
  
     /**
-     * Delete a character from the database
+     * delete a character from the database
      * @param id the id of the character to delete
      * @return the id of the deleted character
      */
@@ -81,17 +81,16 @@ public class PlayerCharacterDao {
     }
  
     /**
-     * Search for public or user's characters with a given name, paginated so a large
-     * result set doesn't have to be loaded (and rendered) all at once.
+     * search for public or user's characters by name
      * @param username user's username
      * @param isAdmin if the user is admin
      * @param name the name of the character
      * @param sortBy sorting criteria
      * @param characterClass class of the character
      * @param direction sort direction
-     * @param page zero-indexed page number
+     * @param page page number
      * @param size how many results per page
-     * @return a page of matching characters plus the total number of matches
+     * @return a page of characters
     */
     public ResultsPage<PlayerCharacter> search(String username, boolean isAdmin, String name, String sortBy,
                                                 String characterClass, String direction, int page, int size) {

@@ -24,7 +24,7 @@ public class EncounterMonsterDao {
     }
 
     /**
-     * Adds a monster to an encounter
+     * add a monster to an encounter
      * @param encounterId the id of the encounter
      * @param monsterId the id of the monster
      */
@@ -56,7 +56,7 @@ public class EncounterMonsterDao {
 
     /**
      * gets the specific monster in the encounter by id
-     * @param id the id of the current monster in the encounter
+     * @param id the id of the current monster
      */
     public EncounterMonster getById(int id) {
         String sql = "SELECT em.id, em.encounter_id, em.monster_id, em.current_health, " +
@@ -74,7 +74,7 @@ public class EncounterMonsterDao {
     }
 
     /**
-     * Updates current health of the monster
+     * updates current health of the monster
      * @param id the id of the current monster
      * @param newHealth updated health for the monster
      */
@@ -90,7 +90,7 @@ public class EncounterMonsterDao {
 
     /**
      * updates the initiative
-     * @param id the id of the current monster in the encounter
+     * @param id the id of the monster
      * @param initiative the new initiative value
      */
     public EncounterMonster updateInitiative(int id, int initiative) {
@@ -102,8 +102,8 @@ public class EncounterMonsterDao {
     }
 
     /**
-     * Sets whether the monster has used its reaction
-     * @param id the id of the current monster in the encounter
+     * sets whether the monster has used its reaction
+     * @param id the id of the current monster
      * @param usedReaction whether the reaction has been used
      */
     public EncounterMonster setUsedReaction(int id, boolean usedReaction) {
@@ -115,8 +115,9 @@ public class EncounterMonsterDao {
     }
 
     /**
-     * Spends one of the monster's legendary actions
+     * spends one of the monster's legendary actions
      * @param id the id of the current monster in the encounter
+     * @returns monster with updated legendary actions
      */
     public EncounterMonster useLegendaryAction(int id) {
         EncounterMonster current = getById(id);
@@ -129,7 +130,7 @@ public class EncounterMonsterDao {
     }
 
     /**
-     * Removes a monster from the encounter
+     * removes a monster from the encounter
      * @param id the id of the monster to remove
      */
     public int remove(int id) {
@@ -137,7 +138,7 @@ public class EncounterMonsterDao {
     }
 
     /**
-     * Resets every monster's resources every round
+     * resets every monster's resources on round change
      * @param encounterId the id of the encounter
      */
     public void resetRoundState(int encounterId) {

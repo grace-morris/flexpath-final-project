@@ -1,11 +1,5 @@
 /**
- * Reused by the Monsters, Characters, and Encounters pages — a search box,
- * an optional second filter, and a sort field + direction control.
- * onFilterChange is omitted entirely on pages with no second filter.
- *
- * The second filter renders as a free-text input (Monsters' type, Characters'
- * class) unless filterOptions is passed, in which case it renders as a
- * <select> instead (Encounters' public/mine/all visibility filter).
+ * search filters and substring box
  */
 function SearchSortBar({
   name,

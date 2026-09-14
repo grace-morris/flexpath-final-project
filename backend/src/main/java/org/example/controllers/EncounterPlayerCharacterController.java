@@ -67,6 +67,13 @@ public class EncounterPlayerCharacterController {
                 encounterId, characterId, newHealth, principal.getName(), AuthorizationHelper.isAdmin(authentication));
     }
 
+    /**
+     * deletes a character
+     * @param encounterId id of the encounter
+     * @param characterId id of the character
+     * @param principal person making the request
+     * @param authentication authorization ticket for the user
+     */
     @DeleteMapping("/{characterId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void remove(@PathVariable int encounterId, @PathVariable int characterId,

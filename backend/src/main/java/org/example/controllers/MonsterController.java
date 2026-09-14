@@ -46,7 +46,7 @@ public class MonsterController {
     }
  
     /**
-     * get an monster by id
+     * get a monster by id
      * @param id id of the monster
      * @param principal who is making the request
      * @param authentication authentication instance for the user
@@ -63,7 +63,7 @@ public class MonsterController {
     }
  
     /**
-     * create an monster
+     * create a monster
      * @param monster the monster to be created
      * @param principal who is making the request
      * @return the created monster
@@ -75,7 +75,7 @@ public class MonsterController {
     }
  
     /**
-     * update an monster
+     * update a monster
      * @param id the id of the monster
      * @param monster the monster to be updated
      * @param principal who is making the request
@@ -89,7 +89,7 @@ public class MonsterController {
     }
  
     /**
-     * delete an monster
+     * delete a monster
      * @param id id of the monster
      * @param principal who is making the request
      * @param authentication the authentication instance for the user

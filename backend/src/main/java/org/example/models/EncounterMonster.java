@@ -60,12 +60,28 @@ public class EncounterMonster {
     }
 
     /**
+     * Sets the id of current monster
+     * @param id id of the current monster
+     */
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    /**
      * Gets the id of the encounter.
      *
      * @return The id of the encounter.
      */
     public int getEncounterId() {
         return encounterId;
+    }
+
+    /**
+     * Sets the id of the encounter
+     * @param id id of the encounter
+     */
+    public void setEncounterId(int id) {
+        this.encounterId = id;
     }
 
     /**
@@ -78,6 +94,14 @@ public class EncounterMonster {
     }
 
     /**
+     * Sets the id of the monster
+     * @param id id of the monster
+     */
+    public void setMonsterId(int id) {
+        this.monsterId = id;
+    }
+
+    /**
      * Gets the name of the monster.
      *
      * @return The name of the monster.
@@ -87,12 +111,29 @@ public class EncounterMonster {
     }
 
     /**
-     * Gets the armor class of the current monster.
+     * Sets the name of the monster.
+     *
+     * @param monsterName the name of the monster.
+     */
+    public void setMonsterName(String monsterName) {
+        this.monsterName = monsterName;
+    }
+
+    /**
+     * Gets the AC of the current monster.
      *
      * @return The AC of the current monster.
      */
     public int getArmorClass() {
         return armorClass;
+    }
+
+    /**
+     * Sets the AC of the monster
+     * @param armorClass
+     */
+    public void setArmorClass(int armorClass) {
+        this.armorClass = armorClass;
     }
 
     /**
@@ -102,6 +143,14 @@ public class EncounterMonster {
      */
     public int getMaxHealth() {
         return maxHealth;
+    }
+
+    /**
+     * Sets the max health for the monster
+     * @param maxHealth max health of the monster
+     */
+    public void setMaxHealth(int maxHealth) {
+        this.maxHealth = maxHealth;
     }
 
     /**
@@ -123,16 +172,7 @@ public class EncounterMonster {
     }
 
     /**
-     * Sets the name of the monster.
-     *
-     * @param monsterName the name of the monster.
-     */
-    public void setMonsterName(String monsterName) {
-        this.monsterName = monsterName;
-    }
-
-    /**
-     * Gets the turn order for this monster in this encounter.
+     * Gets the initiative of the monster
      *
      * @return the initiative value; higher goes first
      */
@@ -141,7 +181,7 @@ public class EncounterMonster {
     }
 
     /**
-     * Sets the turn order for this monster in this encounter.
+     * Sets the initiative of the monster
      *
      * @param initiative the initiative value
      */
@@ -150,7 +190,7 @@ public class EncounterMonster {
     }
 
     /**
-     * Gets whether this monster has used its reaction this round.
+     * Checks if monster used it's reaction
      *
      * @return whether the reaction has been used
      */
@@ -159,7 +199,7 @@ public class EncounterMonster {
     }
 
     /**
-     * Sets whether this monster has used its reaction this round.
+     * Toggles the monster's reaction
      *
      * @param usedReaction whether the reaction has been used
      */
@@ -168,7 +208,7 @@ public class EncounterMonster {
     }
 
     /**
-     * Gets how many legendary actions this monster has used this round.
+     * Gets remaining legendary action count
      *
      * @return the number of legendary actions used
      */
@@ -177,7 +217,7 @@ public class EncounterMonster {
     }
 
     /**
-     * Sets how many legendary actions this monster has used this round.
+     * Sets legendary action count
      *
      * @param legendaryActionsUsed the number of legendary actions used
      */
@@ -186,7 +226,7 @@ public class EncounterMonster {
     }
 
     /**
-     * Gets how many legendary actions this monster type gets per round.
+     * Gets max legendary action amount
      *
      * @return the max legendary actions per round, from the monster type
      */
@@ -195,7 +235,7 @@ public class EncounterMonster {
     }
 
     /**
-     * Sets how many legendary actions this monster type gets per round.
+     * Sets legendary action amount
      *
      * @param maxLegendaryActions the max legendary actions per round
      */

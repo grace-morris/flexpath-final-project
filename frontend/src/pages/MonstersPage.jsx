@@ -36,8 +36,7 @@ function MonstersPage() {
     setTotalCount(results.totalCount);
   };
 
-  // Tracks the last-loaded filter/sort values so a change to any of them can
-  // reset to page 0 without also firing an extra, wasted load at the old page.
+  // Tracks the last-loaded filter/sort values
   const lastFilters = useRef({ name, type, sortBy, direction });
 
   useEffect(() => {
@@ -49,7 +48,7 @@ function MonstersPage() {
       lastFilters.current = { name, type, sortBy, direction };
       if (page !== 0) {
         setPage(0);
-        return; // the resulting page change re-triggers this effect to load
+        return; 
       }
     }
 

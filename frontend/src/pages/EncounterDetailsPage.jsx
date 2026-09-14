@@ -5,8 +5,7 @@ import { api } from "../api/apiClient";
 import MonsterRow from "../components/MonsterRow";
 import CharacterRow from "../components/CharacterRow";
 
-// The backend clamps search page size to 100 max, so this is the most monsters/
-// characters the "add to encounter" dropdowns below can ever show at once.
+// clamps search page size to 100 max
 const MAX_AVAILABLE_SIZE = 100;
 
 function EncounterDetailsPage() {
@@ -19,8 +18,6 @@ function EncounterDetailsPage() {
   const [availableCharacters, setAvailableCharacters] = useState([]);
   const [roundPending, setRoundPending] = useState(false);
   // Tracks whether this encounter has had at least one combatant at some point
-  // during this visit, so removing the last one shows "Encounter Ended!"
-  // without also showing it for a brand-new encounter nothing's been added to yet.
   const [everHadCombatants, setEverHadCombatants] = useState(false);
 
   const loadAll = async () => {
@@ -62,10 +59,7 @@ function EncounterDetailsPage() {
     loadAll();
   };
 
-  // Resets the <select> back to its placeholder after each pick. Without this,
-  // picking the same monster/character twice in a row wouldn't fire a second
-  // onChange at all (the browser only fires it when the value actually
-  // changes), so you'd be stuck unable to add a second Goblin back-to-back.
+  // Resets the <select> back to its placeholder after each pick
   const handleAddMonster = (e) => {
     const monsterId = e.target.value;
     e.target.value = "";
@@ -93,9 +87,7 @@ function EncounterDetailsPage() {
   };
 
   /**
-   * Advances the encounter to the next round: increments the round counter
-   * and resets everyone's reaction/legendary-action usage on the backend,
-   * then reloads so the tracker reflects the reset.
+   * starts the next round
    */
   const nextRound = async () => {
     setRoundPending(true);
@@ -113,10 +105,7 @@ function EncounterDetailsPage() {
 
   const encounterEnded = everHadCombatants && monsterList.length + characterList.length === 0;
 
-  // If multiple monsters share the same name (e.g. three Goblins), number them
-  // "Goblin 1"/"Goblin 2"/"Goblin 3" for clarity in the turn order. Numbering
-  // is based on the order they were added (their own row id), not initiative,
-  // so it doesn't shuffle around mid-combat as initiative changes.
+  // If multiple monsters share the same name, number them
   const nameTotals = {};
   monsterList.forEach((monster) => {
     nameTotals[monster.monsterName] = (nameTotals[monster.monsterName] || 0) + 1;
@@ -132,8 +121,7 @@ function EncounterDetailsPage() {
       return { ...monster, displayName: `${monster.monsterName} ${nameRunningCount[monster.monsterName]}` };
     });
 
-  // Combine monsters and characters into one initiative-ordered turn order,
-  // highest initiative first.
+  // Combine monsters and characters into one intiative order
   const turnOrder = [
     ...numberedMonsterList.map((monster) => ({
       key: `monster-${monster.id}`,

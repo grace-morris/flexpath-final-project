@@ -80,7 +80,7 @@ public class EncounterPlayerCharacterService {
     }
 
     /**
-     * Update the initiative (turn order) of the character in the encounter
+     * Update the initiative of the character in the encounter
      * @param encounterId the id of the encounter
      * @param characterId the id of the character
      * @param initiative the new initiative value
@@ -95,7 +95,7 @@ public class EncounterPlayerCharacterService {
     }
 
     /**
-     * Toggle whether the character has used its reaction this round
+     * Toggle whether the character has used its reaction 
      * @param encounterId the id of the encounter
      * @param characterId the id of the character
      * @param usedReaction whether the reaction has been used
@@ -111,8 +111,7 @@ public class EncounterPlayerCharacterService {
 
     /**
      * Checks ownership of the encounter.
-     * Chose this approach instead of @Preauthorize because @Preauthorize
-     * can't see into the database.
+     * Chose this approach instead of @Preauthorize because @Preauthorize can't see into the database.
      * @param encounterId the id of the encounter
      * @param username the username of the user
      * @param isAdmin whether the user is Admin

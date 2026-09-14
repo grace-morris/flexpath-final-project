@@ -8,9 +8,6 @@ const PAGE_SIZE = 10;
 
 /**
  * Landing page: shows only the encounters this user created or edited
- * (never other users' public encounters) so they can jump straight into
- * running one. Creating/editing encounters themselves now lives on the
- * Encounters page.
  */
 function HomePage() {
   const { auth } = useAuth();

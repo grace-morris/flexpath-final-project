@@ -1,9 +1,7 @@
 import { createContext, useContext, useState } from "react";
 
 /**
- * holds the JWT/username/admin flag once logged in.
- * Kept separate from the monster/character/encounter feature so you just
- * need to call setAuth({ token, username, isAdmin })
+ * holds the JWT/username/admin flag once logged in
  */
 const AuthContext = createContext(null);
 

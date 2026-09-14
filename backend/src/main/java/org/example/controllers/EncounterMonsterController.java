@@ -26,7 +26,7 @@ public class EncounterMonsterController {
     private EncounterMonsterService encounterMonsterService;
  
     /**
-     * Gets a list of the monsters in the encounter
+     * gets a list of the monsters in the encounter
      * @param encounterId the id of the encounter
      * @return the list of monsters in the encounter
      */
@@ -51,7 +51,7 @@ public class EncounterMonsterController {
     }
  
     /**
-     * Adjusts the monster's health
+     * adjusts the monster's health
      * @param encounterId the id of the encounter
      * @param monsterId the id of the monster
      * @param body maps "currentHealth" to the current health from the request body
@@ -67,6 +67,13 @@ public class EncounterMonsterController {
                 encounterId, monsterId, newHitPoints, principal.getName(), AuthorizationHelper.isAdmin(authentication));
     }
  
+    /**
+     * deletes a monster
+     * @param encounterId id of the encounter
+     * @param monsterId id of the monster
+     * @param principal person making the request
+     * @param authentication authentication ticket for the user
+     */
     @DeleteMapping("/{monsterId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void remove(@PathVariable int encounterId, @PathVariable int monsterId,
@@ -76,7 +83,7 @@ public class EncounterMonsterController {
     }
  
     /**
-     * Sets the monster's initiative (turn order) for this encounter
+     * Sets the monster's initiative
      * @param encounterId the id of the encounter
      * @param monsterId the id of the monster
      * @param body maps "initiative" to the new initiative value
@@ -93,7 +100,7 @@ public class EncounterMonsterController {
     }
  
     /**
-     * Sets whether the monster has used its reaction this round
+     * sets whether the monster has used its reaction
      * @param encounterId the id of the encounter
      * @param monsterId the id of the monster
      * @param body maps "usedReaction" to whether the reaction has been used
@@ -110,7 +117,7 @@ public class EncounterMonsterController {
     }
  
     /**
-     * Spends one legendary action
+     * spends one legendary action
      * @param encounterId the id of the encounter
      * @param monsterId the id of the monster
      * @param principal who is making the request

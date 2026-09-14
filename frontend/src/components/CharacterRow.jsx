@@ -2,22 +2,19 @@ import { useEffect, useState } from "react";
 import { api } from "../api/apiClient";
 
 /**
- * One row in the battle tracker's turn order for a player character in the
- * encounter: initiative, health adjustment, and a reaction toggle. Player
- * characters don't have legendary actions, so there's no counter for that here.
+ * One row in the battle tracker's initiative for a PC
  *
- * @param character the character (EncounterPlayerCharacter) to display/change
+ * @param character the character to display
  * @param encounterId the id of the encounter
  * @param token the access token
  * @param onUpdated called with the updated character after a change
- * @param onRemove called with the character's id to remove it from the encounter
+ * @param onRemove called to remove a character from the encounter
  */
 function CharacterRow({ character, encounterId, token, onUpdated, onRemove }) {
   const [pending, setPending] = useState(false);
   const [initiativeInput, setInitiativeInput] = useState(character.initiative);
 
-  // Keep the input in sync if the character's initiative changes from outside
-  // this row (e.g. a fresh load after adding another combatant).
+  // Keep the input in sync with character initiative changes
   useEffect(() => {
     setInitiativeInput(character.initiative);
   }, [character.initiative]);

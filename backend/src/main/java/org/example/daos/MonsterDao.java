@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Data access object for monster types (also known as the Monster Manual)
+ * Data access object for monster types 
  */
 @Component
 public class MonsterDao {
@@ -26,7 +26,7 @@ public class MonsterDao {
     }
 
     /**
-     * Get the monster by it's ID
+     * get the monster by it's id
      * @param id the id of the monster
      * @return the monster with the id
      */
@@ -39,7 +39,7 @@ public class MonsterDao {
     }
 
     /**
-     * Add a monster to the database
+     * add a monster to the database
      * @param monster the monster instance to be added to the database
      * @return the monster that is added
      */
@@ -54,7 +54,7 @@ public class MonsterDao {
     }
 
     /**
-     * Update a monster in the database
+     * update a monster in the database
      * @param monster the monster instance to be updated
      * @return the updated monster
      */
@@ -80,17 +80,16 @@ public class MonsterDao {
     }
 
     /**
-     * Search for public or user's monsters with a given name, paginated so a large result
-     * set doesn't have to be loaded (and rendered) all at once.
+     * search for public or user's monsters by name
      * @param username user's username
      * @param isAdmin if the user is admin
      * @param name the name of the monster
      * @param sortBy sorting criteria
      * @param type type of the monster
      * @param direction sort direction
-     * @param page zero-indexed page number
+     * @param page page number
      * @param size how many results per page
-     * @return a page of matching monsters plus the total number of matches
+     * @return a page of monsters
      */
     public ResultsPage<Monster> search(String username, boolean isAdmin, String name, String sortBy,
                                        String type, String direction, int page, int size) {

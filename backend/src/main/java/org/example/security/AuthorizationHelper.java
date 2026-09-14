@@ -4,8 +4,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
 /**
- * Small shared helper so every controller doesn't repeat the same
- * check for admin
+ * Small shared helper so every controller doesn't repeat the same check for admin
  */
 public class AuthorizationHelper {
 

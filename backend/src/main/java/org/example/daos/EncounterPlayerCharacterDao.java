@@ -23,7 +23,7 @@ public class EncounterPlayerCharacterDao {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
     /**
-     * Adds a PC to an encounter
+     * adds a PC to an encounter
      * @param encounterId the id of the encounter
      * @param playerCharacterId the id of the character
      */
@@ -53,7 +53,7 @@ public class EncounterPlayerCharacterDao {
     }
 
     /**
-     * get the current character in the encounter by ID
+     * get the current character in the encounter by id
      * @param id the id of the character
      */
     public EncounterPlayerCharacter getById(int id) {
@@ -72,7 +72,7 @@ public class EncounterPlayerCharacterDao {
 
 
     /**
-     * Updates current health of the character
+     * updates current health of the character
      * @param id the id of the current character
      * @param newHealth updated health for the character
      */
@@ -87,7 +87,7 @@ public class EncounterPlayerCharacterDao {
     }
 
     /**
-     * Updates the initiative (turn order) of the character in the encounter
+     * updates the initiative of the character
      * @param id the id of the current character in the encounter
      * @param initiative the new initiative value
      */
@@ -100,8 +100,8 @@ public class EncounterPlayerCharacterDao {
     }
 
     /**
-     * Sets whether the character has used its reaction this round
-     * @param id the id of the current character in the encounter
+     * sets whether the character has used its reaction
+     * @param id the id of the character
      * @param usedReaction whether the reaction has been used
      */
     public EncounterPlayerCharacter setUsedReaction(int id, boolean usedReaction) {
@@ -113,16 +113,16 @@ public class EncounterPlayerCharacterDao {
     }
 
     /**
-     * Removes a character from the encounter
+     * removes a character from the encounter
      * @param id the id of the character to remove
+     * @return the update to remove the character
      */
     public int remove(int id) {
         return jdbcTemplate.update("DELETE FROM encounter_player_character WHERE id = ?", id);
     }
 
     /**
-     * Resets every character's per-round resources (reaction) for an encounter.
-     * Called when the encounter advances to its next round.
+     * reset the character's resources on round change
      * @param encounterId the id of the encounter
      */
     public void resetRoundState(int encounterId) {

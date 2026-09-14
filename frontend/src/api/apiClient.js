@@ -1,8 +1,7 @@
 const BASE_URL = "/api";
 
 /**
- * Fetch wrapper to attach the JWT, parse JSON, and
- * throw bad response so callers can just try/catch
+ * Fetch wrapper to attach the JWT, parse JSON, and throw errors
  */
 async function request(path, { method = "GET", token, body } = {}) {
   const response = await fetch(`${BASE_URL}${path}`, {

@@ -22,7 +22,7 @@ public class EncounterDao {
     private final JdbcTemplate jdbcTemplate;
 
     /**
-     * Creates a new user datasource object
+     * creates a new user datasource object
      *
      * @param dataSource The data source for the DAO.
      */
@@ -31,7 +31,7 @@ public class EncounterDao {
     }
 
     /**
-     * Gets all the user's encounters
+     * gets all the user's encounters
      * @param username the user to get the encounters
      * @return List of Encounters
      */
@@ -44,7 +44,7 @@ public class EncounterDao {
     }
 
     /**
-     * Gets all public encounters
+     * gets all public encounters
      *
      * @return List of Encounters
      */
@@ -53,8 +53,8 @@ public class EncounterDao {
     }
 
     /**
-     * Gets encounter by id
-     *
+     * gets encounter by id
+     * @param id id of the encounter
      * @return id of the encounter
      */
     public Encounter getEncounterById(int id) {
@@ -66,9 +66,9 @@ public class EncounterDao {
     }
 
     /**
-     * Create new encounter
+     * greate new encounter
      * @param encounter the encounter to be created.
-     * @return Encounter the new encounter.
+     * @return the new encounter.
      */
     public Encounter create(Encounter encounter) {
         String sql = "INSERT INTO encounter (name, description, is_public, creator_username) VALUES (?,?,?,?)";
@@ -79,9 +79,9 @@ public class EncounterDao {
     }
 
     /**
-     * Update an encounter
+     * update an encounter
      * @param encounter the encounter to be updated
-     * @return Encounter the new encounter.
+     * @return the new encounter.
      */
     public Encounter update(Encounter encounter) {
         String sql = "UPDATE encounter SET name = ?, description = ?, is_public = ? WHERE id = ?";
@@ -94,18 +94,18 @@ public class EncounterDao {
     }
 
     /**
-     * Delete an encounter
+     * delete an encounter
      * @param id the id of the encounter to be deleted
-     * @return Encounter the new encounter.
+     * @return the update to delete the encounter
      */
     public int delete(int id) {
         return jdbcTemplate.update("DELETE FROM encounter WHERE id = ?", id);
     }
 
     /**
-     * Advances an encounter to the next round.
+     * starts the next round
      * @param id the id of the encounter
-     * @return the encounter with its round incremented
+     * @return the encounter with a new round
      */
     public Encounter incrementRound(int id) {
         int rowsAffected = jdbcTemplate.update("UPDATE encounter SET current_round = current_round + 1 WHERE id = ?", id);
@@ -116,19 +116,17 @@ public class EncounterDao {
     }
 
     /**
-     * Search for public or user's encounters with a given name, optionally narrowed to
-     * only public encounters or only the user's own encounters, and paginated so a large
-     * result set doesn't have to be loaded (and rendered) all at once.
+     * search for encounters (user or private) with a given name
      *
-     * @param username the requesting user
-     * @param isAdmin whether the requesting user is admin
+     * @param username username of the user
+     * @param isAdmin whether the user is admin
      * @param name name of the encounter
      * @param visibility public or private
      * @param sortBy sorting criteria
      * @param direction sort direction
      * @param page page number
      * @param size how many results per page
-     * @return a page of matching encounters, total matches
+     * @return page of encounters
      */
     public ResultsPage<Encounter> search(String username, boolean isAdmin, String name, String visibility,
                                          String sortBy, String direction, int page, int size) {

@@ -14,8 +14,7 @@ function MonsterRow({ monster, encounterId, token, onUpdated, onRemove }) {
   const [pending, setPending] = useState(false);
   const [initiativeInput, setInitiativeInput] = useState(monster.initiative);
 
-  // Keep the input in sync if the monster's initiative changes from outside
-  // this row (e.g. a fresh load after adding another combatant).
+  // Keep the input in sync if the monster's initiative changes
   useEffect(() => {
     setInitiativeInput(monster.initiative);
   }, [monster.initiative]);

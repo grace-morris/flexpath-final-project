@@ -29,7 +29,7 @@ function CharactersPage() {
   const [editingId, setEditingId] = useState(null);
 
   /**
-   * Load the current page of characters matching the search/filter/sort state
+   * Load the current page of characters 
    */
   const loadCharacters = async () => {
     const query = new URLSearchParams({ name, characterClass, sortBy, direction, page, size: PAGE_SIZE }).toString();
@@ -38,8 +38,7 @@ function CharactersPage() {
     setTotalCount(results.totalCount);
   };
 
-  // Tracks the last-loaded filter/sort values so a change to any of them can
-  // reset to page 0 without also firing an extra, wasted load at the old page.
+  // Tracks the last-loaded filter/sort values
   const lastFilters = useRef({ name, characterClass, sortBy, direction });
 
   useEffect(() => {

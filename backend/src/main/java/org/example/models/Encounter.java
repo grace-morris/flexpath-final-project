@@ -15,10 +15,10 @@ public class Encounter {
     private int currentRound;
 
     /**
-     * Creates a new monster in the encounter.
+     * creates a new encounter
      *
-     * @param id The id of the encounter.
-     * @param name the name of the encounter.
+     * @param id The id of the encounter
+     * @param name the name of the encounter
      * @param description the description of the encounter
      * @param creatorUsername the usernmae of the creator
      * @param createdAt the time the encounter was created.
@@ -149,7 +149,7 @@ public class Encounter {
     }
 
     /**
-     * Gets which round of the battle this encounter is currently on.
+     * Gets the current round number
      *
      * @return the current round number
      */
@@ -158,7 +158,7 @@ public class Encounter {
     }
 
     /**
-     * Sets which round of the battle this encounter is currently on.
+     * Sets the current round number
      *
      * @param currentRound the current round number
      */

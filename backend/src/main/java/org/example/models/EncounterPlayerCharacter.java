@@ -18,7 +18,7 @@ public class EncounterPlayerCharacter {
     private boolean usedReaction;
 
     /**
-     * Creates a new character in the encounter.
+     * creates a new character in the encounter.
      *
      * @param id The id of the current character in the encounter.
      * @param encounterId The id of the current encounter.
@@ -27,8 +27,8 @@ public class EncounterPlayerCharacter {
      * @param armorClass the AC of the character
      * @param maxHealth the max health for the character
      * @param currentHealth the current health of the character
-     * @param initiative the turn order for this character in this encounter
-     * @param usedReaction whether this character has used its reaction this round
+     * @param initiative the initiative for this character in this encounter
+     * @param usedReaction whether this character has used its reaction 
      */
     public EncounterPlayerCharacter(int id, int encounterId, int playerCharacterId,
                                     String playerCharacterName, int armorClass, int maxHealth, int currentHealth,
@@ -54,6 +54,14 @@ public class EncounterPlayerCharacter {
     }
 
     /**
+     * Sets the id of the current character
+     * @param id the id of the current character
+     */
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    /**
      * Gets the id of the encounter.
      *
      * @return The id of the encounter.
@@ -63,12 +71,29 @@ public class EncounterPlayerCharacter {
     }
 
     /**
+     * Sets the id of the encounter
+     * @param id id of the encounter
+     */
+    public void setEncounterId(int id) {
+        this.encounterId = id;
+    }
+
+    /**
      * Gets the id of the character type.
      *
      * @return The id of the character type.
      */
     public int getPlayerCharacterId() {
         return playerCharacterId;
+    }
+
+     /**
+     * Sets the id of the PC.
+     *
+     * @param id The id of the PC.
+     */
+    public void setPlayerCharacterId(int id) {
+        this.playerCharacterId = id;
     }
 
     /**
@@ -81,12 +106,29 @@ public class EncounterPlayerCharacter {
     }
 
     /**
+     * Sets the name of the character.
+     *
+     * @param playerCharacterName the current health of the character.
+     */
+    public void setPlayerCharacterName(String playerCharacterName) {
+        this.playerCharacterName = playerCharacterName;
+    }
+
+    /**
      * Gets the armor class of the current character.
      *
      * @return The AC of the current character.
      */
     public int getArmorClass() {
         return armorClass;
+    }
+
+    /**
+     * Sets the AC of the PC
+     * @param armorClass
+     */
+    public void setArmorClass(int armorClass) {
+        this.armorClass = armorClass;
     }
 
     /**
@@ -97,6 +139,15 @@ public class EncounterPlayerCharacter {
     public int getMaxHealth() {
         return maxHealth;
     }
+
+ 
+    /**
+     * Sets the max health for the PC
+     * @param maxHealth max health of the PC
+     */
+    public void setMaxHealth(int maxHealth) {
+        this.maxHealth = maxHealth;
+    }   
 
     /**
      * Gets the current health of the current character.
@@ -114,15 +165,6 @@ public class EncounterPlayerCharacter {
      */
     public void setCurrentHealth(int currentHealth) {
         this.currentHealth = currentHealth;
-    }
-
-    /**
-     * Sets the name of the character.
-     *
-     * @param playerCharacterName the current health of the character.
-     */
-    public void setPlayerCharacterName(String playerCharacterName) {
-        this.playerCharacterName = playerCharacterName;
     }
 
     /**

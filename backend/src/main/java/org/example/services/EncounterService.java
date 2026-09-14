@@ -41,7 +41,7 @@ public class EncounterService {
      * @param name name of the encounter
      * @param sortBy sorting criteria
      * @param direction sort direction
-     * @return list of encounters
+     * @return page  of encounters
      */
     public ResultsPage<Encounter> search(String username, boolean isAdmin, String name, String visibility, String sortBy, String direction, int page, int size) {
         return encounterDao.search(username, isAdmin, name, visibility, sortBy, direction, page, size);
