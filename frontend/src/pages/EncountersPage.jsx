@@ -111,24 +111,18 @@ function EncountersPage() {
       <h2>Encounters</h2>
 
       <SearchSortBar
-        name={name}
-        onNameChange={setName}
-        filterLabel="Visibility"
-        filterValue={visibility}
-        onFilterChange={setVisibility}
-        filterOptions={[
-          { value: "all", label: "Mine + public" },
-          { value: "public", label: "Public only" },
-          { value: "mine", label: "Mine only" },
-        ]}
-        sortOptions={[
-          { value: "name", label: "name" },
-          { value: "created_at", label: "date created" },
-        ]}
-        sortBy={sortBy}
-        onSortByChange={setSortBy}
-        direction={direction}
-        onDirectionChange={setDirection}
+          name={name}
+          onNameChange={setName}
+          visibility={visibility}
+          onVisibilityChange={setVisibility}
+          sortOptions={[
+            { value: "name", label: "name" },
+            { value: "created_at", label: "date created" },
+          ]}
+          sortBy={sortBy}
+          onSortByChange={setSortBy}
+          direction={direction}
+          onDirectionChange={setDirection}
       />
 
       {encounters.map((encounter) => (

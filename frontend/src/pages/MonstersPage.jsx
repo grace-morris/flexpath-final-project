@@ -89,21 +89,23 @@ function MonstersPage() {
       <h2>Bestiary</h2>
 
       <SearchSortBar
-        name={name}
-        onNameChange={setName}
-        filterLabel="Type"
-        filterValue={type}
-        onFilterChange={setType}
-        sortOptions={[
-          { value: "name", label: "name" },
-          { value: "challenge_rating", label: "challenge rating" },
-          { value: "armor_class", label: "armor class" },
-          { value: "health", label: "health" },
-        ]}
-        sortBy={sortBy}
-        onSortByChange={setSortBy}
-        direction={direction}
-        onDirectionChange={setDirection}
+          name={name}
+          onNameChange={setName}
+          filterLabel="Type"
+          filterValue={type}
+          onFilterChange={setType}
+          visibility={visibility}
+          onVisibilityChange={setVisibility}
+          sortOptions={[
+            { value: "name", label: "name" },
+            { value: "challenge_rating", label: "challenge rating" },
+            { value: "armor_class", label: "armor class" },
+            { value: "health", label: "health" },
+          ]}
+          sortBy={sortBy}
+          onSortByChange={setSortBy}
+          direction={direction}
+          onDirectionChange={setDirection}
       />
 
       {monsters.map((monster) => (

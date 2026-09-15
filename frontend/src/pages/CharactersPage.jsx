@@ -99,6 +99,8 @@ function CharactersPage() {
         filterLabel="Class"
         filterValue={characterClass}
         onFilterChange={setCharacterClass}
+        visibility={visibility}
+        onVisibilityChange={setVisibility}
         sortOptions={[
           { value: "name", label: "name" },
           { value: "level", label: "level" },

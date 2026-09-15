@@ -28,6 +28,7 @@ public class PlayerCharacterService {
      * @param username username of the user
      * @param isAdmin whether the user is admin
      * @param name name of the character
+     * @param visibility public, mine, or all
      * @param sortBy sorting criteria
      * @param characterClass the class of character
      * @param direction sort direction
@@ -35,9 +36,9 @@ public class PlayerCharacterService {
      * @param size how many results per page
      * @return a page of characters plus the total number of matches
      */
-    public ResultsPage<PlayerCharacter> search(String username, boolean isAdmin, String name, String sortBy,
+    public ResultsPage<PlayerCharacter> search(String username, boolean isAdmin, String name, String visibility, String sortBy,
                                                 String characterClass, String direction, int page, int size) {
-        return playerCharacterDao.search(username, isAdmin, name, sortBy, characterClass, direction, page, size);
+        return playerCharacterDao.search(username, isAdmin, name, visibility, sortBy, characterClass, direction, page, size);
     }
  
     /**

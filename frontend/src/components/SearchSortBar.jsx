@@ -8,6 +8,8 @@ function SearchSortBar({
   filterValue,
   onFilterChange,
   filterOptions,
+  visibility,
+  onVisibilityChange,
   sortOptions,
   sortBy,
   onSortByChange,
@@ -50,6 +52,21 @@ function SearchSortBar({
             value={filterValue}
             onChange={(e) => onFilterChange(e.target.value)}
           />
+        </div>
+      )}
+
+      {onVisibilityChange && (
+        <div className="col-auto">
+          <select
+            className="form-select"
+            aria-label="Visibility"
+            value={visibility}
+            onChange={(e) => onVisibilityChange(e.target.value)}
+          >
+            <option value="all">Mine + public</option>
+            <option value="public">Public only</option>
+            <option value="mine">Mine only</option>
+          </select>
         </div>
       )}
 

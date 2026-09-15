@@ -26,7 +26,7 @@ public class MonsterDao {
     }
 
     /**
-     * get the monster by it's id
+     * get the monster by its id
      * @param id the id of the monster
      * @return the monster with the id
      */
@@ -84,6 +84,7 @@ public class MonsterDao {
      * @param username user's username
      * @param isAdmin if the user is admin
      * @param name the name of the monster
+     * @param visibility public, mine, or all
      * @param sortBy sorting criteria
      * @param type type of the monster
      * @param direction sort direction
@@ -91,7 +92,7 @@ public class MonsterDao {
      * @param size how many results per page
      * @return a page of monsters
      */
-    public ResultsPage<Monster> search(String username, boolean isAdmin, String name, String sortBy,
+    public ResultsPage<Monster> search(String username, boolean isAdmin, String name, String visibility, String sortBy,
                                        String type, String direction, int page, int size) {
         String sortColumn;
         if (sortBy.equals("name")) {
@@ -112,7 +113,12 @@ public class MonsterDao {
         StringBuilder where = new StringBuilder("WHERE ");
         List<Object> params = new ArrayList<>();
 
-        if (isAdmin) { //if admin can access all monsters
+        if ("public".equalsIgnoreCase(visibility)) {
+            where.append("is_public = true ");
+        } else if ("mine".equalsIgnoreCase(visibility)) {
+            where.append("creator_username = ? ");
+            params.add(username);
+        } else if (isAdmin) { //if admin can access all monsters
             where.append("1 = 1 ");
         } else {
             where.append("(is_public = true OR creator_username = ?) ");

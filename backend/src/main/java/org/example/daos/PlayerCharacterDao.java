@@ -85,6 +85,7 @@ public class PlayerCharacterDao {
      * @param username user's username
      * @param isAdmin if the user is admin
      * @param name the name of the character
+     * @param visibility public, mine, or all
      * @param sortBy sorting criteria
      * @param characterClass class of the character
      * @param direction sort direction
@@ -92,8 +93,8 @@ public class PlayerCharacterDao {
      * @param size how many results per page
      * @return a page of characters
     */
-    public ResultsPage<PlayerCharacter> search(String username, boolean isAdmin, String name, String sortBy,
-                                                String characterClass, String direction, int page, int size) {
+    public ResultsPage<PlayerCharacter> search(String username, boolean isAdmin, String name, String visibility,
+                                               String sortBy, String characterClass, String direction, int page, int size) {
         String sortColumn;
         if (sortBy.equals("name")) {
             sortColumn = "name";
@@ -102,46 +103,51 @@ public class PlayerCharacterDao {
         } else {
             sortColumn = "name";
         }
- 
+
         String sortDirection;
         if (direction.equalsIgnoreCase("desc")) {
             sortDirection = "DESC";
         } else {
             sortDirection = "ASC";
         }
- 
+
         StringBuilder where = new StringBuilder("WHERE ");
         List<Object> params = new ArrayList<>();
- 
-        if (isAdmin) { //if admin can access all characters
+
+        if ("public".equalsIgnoreCase(visibility)) {
+            where.append("is_public = true ");
+        } else if ("mine".equalsIgnoreCase(visibility)) {
+            where.append("creator_username = ? ");
+            params.add(username);
+        } else if (isAdmin) { //if admin can access all characters
             where.append("1 = 1 ");
         } else {
             where.append("(is_public = true OR creator_username = ?) ");
             params.add(username);
         }
- 
+
         where.append("AND name LIKE ? ");
         params.add("%" + (name == null ? "" : name) + "%");
- 
+
         if (characterClass != null && !characterClass.isBlank()) {
             where.append("AND character_class = ? ");
             params.add(characterClass);
         }
- 
+
         int safeSize = size < 1 ? 10 : Math.min(size, 100);
         int safePage = Math.max(page, 0);
- 
+
         String countSql = "SELECT COUNT(*) FROM player_character " + where;
         Integer totalCount = jdbcTemplate.queryForObject(countSql, Integer.class, params.toArray());
- 
+
         String sql = "SELECT * FROM player_character " + where
                 + "ORDER BY " + sortColumn + " " + sortDirection + " LIMIT ? OFFSET ?";
         List<Object> pageParams = new ArrayList<>(params);
         pageParams.add(safeSize);
         pageParams.add(safePage * safeSize);
- 
+
         List<PlayerCharacter> items = jdbcTemplate.query(sql, this::mapToPC, pageParams.toArray());
- 
+
         return new ResultsPage<>(items, totalCount == null ? 0 : totalCount);
     }
    

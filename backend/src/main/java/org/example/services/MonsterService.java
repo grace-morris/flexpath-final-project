@@ -28,6 +28,7 @@ public class MonsterService {
      * @param username username of the user
      * @param isAdmin whether the user is admin
      * @param name name of the monster
+     * @param visibility public, mine, or alls
      * @param sortBy sorting criteria
      * @param type the type of monster
      * @param direction sort direction
@@ -35,9 +36,9 @@ public class MonsterService {
      * @param size how many results per page
      * @return a page of monsters plus the total number of matches
      */
-    public ResultsPage<Monster> search(String username, boolean isAdmin, String name, String sortBy,
+    public ResultsPage<Monster> search(String username, boolean isAdmin, String name, String visibility, String sortBy,
                                         String type, String direction, int page, int size) {
-        return monsterDao.search(username, isAdmin, name, sortBy, type, direction, page, size);
+        return monsterDao.search(username, isAdmin, name, visibility, sortBy, type, direction, page, size);
     }
  
     /**
