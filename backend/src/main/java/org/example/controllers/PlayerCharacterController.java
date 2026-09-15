@@ -29,6 +29,7 @@ public class PlayerCharacterController {
     /**
      * search through the characters
      * @param name name of the character
+     * @param visibility public, mine, or all
      * @param sortBy sorting criteria
      * @param direction sort direction
      * @param principal who is making the request
@@ -36,14 +37,14 @@ public class PlayerCharacterController {
      * @return list of searched-for characters
      */
     @GetMapping
-    public ResultsPage<PlayerCharacter> search(@RequestParam(defaultValue = "") String name,
+    public ResultsPage<PlayerCharacter> search(@RequestParam(defaultValue = "") String name, String visibility,
                                    @RequestParam(defaultValue = "name") String sortBy,
                                    String characterClass, @RequestParam(defaultValue = "asc") String direction,
                                    @RequestParam(defaultValue = "0") int page,
                                    @RequestParam(defaultValue = "10") int size,
                                    Principal principal, Authentication authentication) {
         boolean isAdmin = AuthorizationHelper.isAdmin(authentication);
-        return playerCharacterService.search(principal.getName(), isAdmin, name, sortBy, characterClass, direction, page, size);
+        return playerCharacterService.search(principal.getName(), isAdmin, name, visibility, sortBy, characterClass, direction, page, size);
     }
  
     /**
