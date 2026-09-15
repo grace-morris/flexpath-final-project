@@ -1,30 +1,14 @@
 // @vitest-environment jsdom
-import { beforeEach, describe, expect, test, vi } from "vitest";
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import "@testing-library/jest-dom/vitest";
+import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
+import { cleanup, render, screen, fireEvent, waitFor } from "@testing-library/react";
 import EncounterDetailsPage from "./EncounterDetailsPage";
 import { api } from "../api/apiClient";
 import { useAuth } from "../context/AuthContext";
+afterEach(cleanup);
 
 /**
- * Unit tests for EncounterDetailsPage - the most logic-heavy page in the
- * app (data loading, turn-order sorting, duplicate-monster numbering, the
- * "Encounter Ended!" overlay). Everything it talks to is mocked so the test
- * targets just that logic:
- *  - apiClient is mocked; loadAll()'s five parallel requests are answered
- *    by path via mockImplementation rather than by call order, since
- *    Promise.all doesn't guarantee anything else about ordering here.
- *  - useAuth is mocked directly (see RequireAuth.test.jsx for why).
- *  - react-router-dom keeps its real exports (MemoryRouter isn't even
- *    needed) except useParams, pinned to a fixed id, and Link, replaced
- *    with a plain <a> so it renders without a Router in the tree.
- *  - MonsterRow/CharacterRow are replaced with tiny stand-ins exposing just
- *    enough (a name and a remove button) to drive this page's own
- *    behavior - their own health/initiative/reaction UI is these
- *    components' own concern, not this page's.
- *
- * Same new-devDependency note as RequireAuth.test.jsx: needs vitest + jsdom
- * (the @vitest-environment comment on line 1 opts just this file into a DOM
- * environment).
+ * Unit tests for EncounterDetailsPage
  */
 
 vi.mock("../api/apiClient", () => ({

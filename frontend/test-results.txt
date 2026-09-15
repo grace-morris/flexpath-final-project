@@ -1,0 +1,219 @@
+
+[1m[46m RUN [49m[22m [36mv3.2.7 [39m[90m/Users/gracemorris/flexpath-final-project/frontend[39m
+
+ [32m✓[39m src/api/apiClient.test.js [2m([22m[2m11 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+[90mstderr[2m | src/components/RequireAuth.test.jsx[2m > [22m[2mRequireAuth[2m > [22m[2mredirects to /login when there is no logged-in user at all
+[22m[39mWarning: React.jsx: type is invalid -- expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.
+
+Check your code at RequireAuth.jsx:37.
+Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.
+    at createFiberFromTypeAndProps (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:28478:17)
+    at createFiberFromElement (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:28504:15)
+    at reconcileSingleElement (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:13986:23)
+    at reconcileChildFibers (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:14044:35)
+    at reconcileChildren (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:19193:28)
+    at updateHostRoot (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:19912:5)
+    at beginWork (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:21654:14)
+    at HTMLUnknownElement.callCallback (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:4164:14)
+    at HTMLUnknownElement.callTheUserObjectsOperation (/Users/gracemorris/flexpath-final-project/frontend/node_modules/jsdom/lib/generated/idl/EventListener.js:26:30)
+    at innerInvokeEventListeners (/Users/gracemorris/flexpath-final-project/frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:360:16)
+
+[90mstderr[2m | src/components/RequireAuth.test.jsx[2m > [22m[2mRequireAuth[2m > [22m[2mrenders the protected children when the token has not expired yet
+[22m[39mWarning: React.jsx: type is invalid -- expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.
+
+Check your code at RequireAuth.jsx:50.
+Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.
+    at createFiberFromTypeAndProps (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:28478:17)
+    at createFiberFromElement (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:28504:15)
+    at reconcileSingleElement (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:13986:23)
+    at reconcileChildFibers (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:14044:35)
+    at reconcileChildren (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:19193:28)
+    at updateHostRoot (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:19912:5)
+    at beginWork (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:21654:14)
+    at HTMLUnknownElement.callCallback (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:4164:14)
+    at HTMLUnknownElement.callTheUserObjectsOperation (/Users/gracemorris/flexpath-final-project/frontend/node_modules/jsdom/lib/generated/idl/EventListener.js:26:30)
+    at innerInvokeEventListeners (/Users/gracemorris/flexpath-final-project/frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:360:16)
+
+[90mstderr[2m | src/components/RequireAuth.test.jsx[2m > [22m[2mRequireAuth[2m > [22m[2mredirects to /login with a session-expired message when the token's exp claim has already passed
+[22m[39mWarning: React.jsx: type is invalid -- expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.
+
+Check your code at RequireAuth.jsx:63.
+Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.
+    at createFiberFromTypeAndProps (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:28478:17)
+    at createFiberFromElement (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:28504:15)
+    at reconcileSingleElement (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:13986:23)
+    at reconcileChildFibers (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:14044:35)
+    at reconcileChildren (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:19193:28)
+    at updateHostRoot (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:19912:5)
+    at beginWork (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:21654:14)
+    at HTMLUnknownElement.callCallback (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:4164:14)
+    at HTMLUnknownElement.callTheUserObjectsOperation (/Users/gracemorris/flexpath-final-project/frontend/node_modules/jsdom/lib/generated/idl/EventListener.js:26:30)
+    at innerInvokeEventListeners (/Users/gracemorris/flexpath-final-project/frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:360:16)
+
+[90mstderr[2m | src/components/RequireAuth.test.jsx[2m > [22m[2mRequireAuth[2m > [22m[2mcalls setAuth(null) once it notices the token is already expired
+[22m[39mWarning: React.jsx: type is invalid -- expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.
+
+Check your code at RequireAuth.jsx:79.
+Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.
+    at createFiberFromTypeAndProps (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:28478:17)
+    at createFiberFromElement (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:28504:15)
+    at reconcileSingleElement (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:13986:23)
+    at reconcileChildFibers (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:14044:35)
+    at reconcileChildren (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:19193:28)
+    at updateHostRoot (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:19912:5)
+    at beginWork (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:21654:14)
+    at HTMLUnknownElement.callCallback (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:4164:14)
+    at HTMLUnknownElement.callTheUserObjectsOperation (/Users/gracemorris/flexpath-final-project/frontend/node_modules/jsdom/lib/generated/idl/EventListener.js:26:30)
+    at innerInvokeEventListeners (/Users/gracemorris/flexpath-final-project/frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:360:16)
+
+[90mstderr[2m | src/components/RequireAuth.test.jsx[2m > [22m[2mRequireAuth[2m > [22m[2mtreats an unparseable token as not-expired rather than crashing (getExpiryTime returns null)
+[22m[39mWarning: React.jsx: type is invalid -- expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.
+
+Check your code at RequireAuth.jsx:92.
+Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.
+    at createFiberFromTypeAndProps (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:28478:17)
+    at createFiberFromElement (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:28504:15)
+    at reconcileSingleElement (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:13986:23)
+    at reconcileChildFibers (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:14044:35)
+    at reconcileChildren (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:19193:28)
+    at updateHostRoot (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:19912:5)
+    at beginWork (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:21654:14)
+    at HTMLUnknownElement.callCallback (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:4164:14)
+    at HTMLUnknownElement.callTheUserObjectsOperation (/Users/gracemorris/flexpath-final-project/frontend/node_modules/jsdom/lib/generated/idl/EventListener.js:26:30)
+    at innerInvokeEventListeners (/Users/gracemorris/flexpath-final-project/frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:360:16)
+
+[90mstderr[2m | src/components/RequireAuth.test.jsx[2m > [22m[2mRequireAuth[2m > [22m[2mredirects to /login when there is no logged-in user at all
+[22m[39mWarning: React.jsx: type is invalid -- expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.
+
+Check your code at RequireAuth.test.jsx:37.
+Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.
+    at createFiberFromTypeAndProps (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:28478:17)
+    at createFiberFromElement (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:28504:15)
+    at reconcileSingleElement (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:13986:23)
+    at reconcileChildFibers (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:14044:35)
+    at reconcileChildren (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:19193:28)
+    at updateHostRoot (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:19912:5)
+    at beginWork (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:21654:14)
+    at HTMLUnknownElement.callCallback (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:4164:14)
+    at HTMLUnknownElement.callTheUserObjectsOperation (/Users/gracemorris/flexpath-final-project/frontend/node_modules/jsdom/lib/generated/idl/EventListener.js:26:30)
+    at innerInvokeEventListeners (/Users/gracemorris/flexpath-final-project/frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:360:16)
+
+[90mstderr[2m | src/components/RequireAuth.test.jsx[2m > [22m[2mRequireAuth[2m > [22m[2mrenders the protected children when the token has not expired yet
+[22m[39mWarning: React.jsx: type is invalid -- expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.
+
+Check your code at RequireAuth.test.jsx:50.
+Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.
+    at createFiberFromTypeAndProps (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:28478:17)
+    at createFiberFromElement (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:28504:15)
+    at reconcileSingleElement (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:13986:23)
+    at reconcileChildFibers (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:14044:35)
+    at reconcileChildren (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:19193:28)
+    at updateHostRoot (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:19912:5)
+    at beginWork (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:21654:14)
+    at HTMLUnknownElement.callCallback (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:4164:14)
+    at HTMLUnknownElement.callTheUserObjectsOperation (/Users/gracemorris/flexpath-final-project/frontend/node_modules/jsdom/lib/generated/idl/EventListener.js:26:30)
+    at innerInvokeEventListeners (/Users/gracemorris/flexpath-final-project/frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:360:16)
+
+[90mstderr[2m | src/components/RequireAuth.test.jsx[2m > [22m[2mRequireAuth[2m > [22m[2mredirects to /login with a session-expired message when the token's exp claim has already passed
+[22m[39mWarning: React.jsx: type is invalid -- expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.
+
+Check your code at RequireAuth.test.jsx:63.
+Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.
+    at createFiberFromTypeAndProps (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:28478:17)
+    at createFiberFromElement (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:28504:15)
+    at reconcileSingleElement (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:13986:23)
+    at reconcileChildFibers (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:14044:35)
+    at reconcileChildren (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:19193:28)
+    at updateHostRoot (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:19912:5)
+    at beginWork (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:21654:14)
+    at HTMLUnknownElement.callCallback (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:4164:14)
+    at HTMLUnknownElement.callTheUserObjectsOperation (/Users/gracemorris/flexpath-final-project/frontend/node_modules/jsdom/lib/generated/idl/EventListener.js:26:30)
+    at innerInvokeEventListeners (/Users/gracemorris/flexpath-final-project/frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:360:16)
+
+[90mstderr[2m | src/components/RequireAuth.test.jsx[2m > [22m[2mRequireAuth[2m > [22m[2mcalls setAuth(null) once it notices the token is already expired
+[22m[39mWarning: React.jsx: type is invalid -- expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.
+
+Check your code at RequireAuth.test.jsx:79.
+Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.
+    at createFiberFromTypeAndProps (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:28478:17)
+    at createFiberFromElement (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:28504:15)
+    at reconcileSingleElement (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:13986:23)
+    at reconcileChildFibers (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:14044:35)
+    at reconcileChildren (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:19193:28)
+    at updateHostRoot (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:19912:5)
+    at beginWork (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:21654:14)
+    at HTMLUnknownElement.callCallback (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:4164:14)
+    at HTMLUnknownElement.callTheUserObjectsOperation (/Users/gracemorris/flexpath-final-project/frontend/node_modules/jsdom/lib/generated/idl/EventListener.js:26:30)
+    at innerInvokeEventListeners (/Users/gracemorris/flexpath-final-project/frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:360:16)
+
+[90mstderr[2m | src/components/RequireAuth.test.jsx[2m > [22m[2mRequireAuth[2m > [22m[2mtreats an unparseable token as not-expired rather than crashing (getExpiryTime returns null)
+[22m[39mWarning: React.jsx: type is invalid -- expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.
+
+Check your code at RequireAuth.test.jsx:91.
+Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.
+    at createFiberFromTypeAndProps (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:28478:17)
+    at createFiberFromElement (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:28504:15)
+    at reconcileSingleElement (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:13986:23)
+    at reconcileChildFibers (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:14044:35)
+    at reconcileChildren (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:19193:28)
+    at updateHostRoot (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:19912:5)
+    at beginWork (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:21654:14)
+    at HTMLUnknownElement.callCallback (/Users/gracemorris/flexpath-final-project/frontend/node_modules/react-dom/cjs/react-dom.development.js:4164:14)
+    at HTMLUnknownElement.callTheUserObjectsOperation (/Users/gracemorris/flexpath-final-project/frontend/node_modules/jsdom/lib/generated/idl/EventListener.js:26:30)
+    at innerInvokeEventListeners (/Users/gracemorris/flexpath-final-project/frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:360:16)
+
+ [31m❯[39m src/components/RequireAuth.test.jsx [2m([22m[2m10 tests[22m[2m | [22m[31m10 failed[39m[2m)[22m[32m 13[2mms[22m[39m
+[31m   [31m×[31m RequireAuth[2m > [22mredirects to /login when there is no logged-in user at all[39m[32m 7[2mms[22m[39m
+[31m     → Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.[39m
+[31m   [31m×[31m RequireAuth[2m > [22mrenders the protected children when the token has not expired yet[39m[32m 1[2mms[22m[39m
+[31m     → Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.[39m
+[31m   [31m×[31m RequireAuth[2m > [22mredirects to /login with a session-expired message when the token's exp claim has already passed[39m[32m 1[2mms[22m[39m
+[31m     → Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.[39m
+[31m   [31m×[31m RequireAuth[2m > [22mcalls setAuth(null) once it notices the token is already expired[39m[32m 1[2mms[22m[39m
+[31m     → Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.[39m
+[31m   [31m×[31m RequireAuth[2m > [22mtreats an unparseable token as not-expired rather than crashing (getExpiryTime returns null)[39m[32m 1[2mms[22m[39m
+[31m     → Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.[39m
+[31m   [31m×[31m RequireAuth[2m > [22mredirects to /login when there is no logged-in user at all[39m[32m 0[2mms[22m[39m
+[31m     → Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.[39m
+[31m   [31m×[31m RequireAuth[2m > [22mrenders the protected children when the token has not expired yet[39m[32m 0[2mms[22m[39m
+[31m     → Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.[39m
+[31m   [31m×[31m RequireAuth[2m > [22mredirects to /login with a session-expired message when the token's exp claim has already passed[39m[32m 0[2mms[22m[39m
+[31m     → Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.[39m
+[31m   [31m×[31m RequireAuth[2m > [22mcalls setAuth(null) once it notices the token is already expired[39m[32m 0[2mms[22m[39m
+[31m     → Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.[39m
+[31m   [31m×[31m RequireAuth[2m > [22mtreats an unparseable token as not-expired rather than crashing (getExpiryTime returns null)[39m[32m 0[2mms[22m[39m
+[31m     → Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.[39m
+ [32m✓[39m src/pages/EncounterDetailsPage.test.jsx [2m([22m[2m8 tests[22m[2m)[22m[32m 57[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 10 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m src/components/RequireAuth.test.jsx[2m > [22mRequireAuth[2m > [22mredirects to /login when there is no logged-in user at all
+[41m[1m FAIL [22m[49m src/components/RequireAuth.test.jsx[2m > [22mRequireAuth[2m > [22mrenders the protected children when the token has not expired yet
+[41m[1m FAIL [22m[49m src/components/RequireAuth.test.jsx[2m > [22mRequireAuth[2m > [22mredirects to /login with a session-expired message when the token's exp claim has already passed
+[41m[1m FAIL [22m[49m src/components/RequireAuth.test.jsx[2m > [22mRequireAuth[2m > [22mcalls setAuth(null) once it notices the token is already expired
+[41m[1m FAIL [22m[49m src/components/RequireAuth.test.jsx[2m > [22mRequireAuth[2m > [22mtreats an unparseable token as not-expired rather than crashing (getExpiryTime returns null)
+[41m[1m FAIL [22m[49m src/components/RequireAuth.test.jsx[2m > [22mRequireAuth[2m > [22mredirects to /login when there is no logged-in user at all
+[41m[1m FAIL [22m[49m src/components/RequireAuth.test.jsx[2m > [22mRequireAuth[2m > [22mrenders the protected children when the token has not expired yet
+[41m[1m FAIL [22m[49m src/components/RequireAuth.test.jsx[2m > [22mRequireAuth[2m > [22mredirects to /login with a session-expired message when the token's exp claim has already passed
+[41m[1m FAIL [22m[49m src/components/RequireAuth.test.jsx[2m > [22mRequireAuth[2m > [22mcalls setAuth(null) once it notices the token is already expired
+[41m[1m FAIL [22m[49m src/components/RequireAuth.test.jsx[2m > [22mRequireAuth[2m > [22mtreats an unparseable token as not-expired rather than crashing (getExpiryTime returns null)
+[31m[1mError[22m: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.[39m
+[90m [2m❯[22m createFiberFromTypeAndProps node_modules/react-dom/cjs/react-dom.development.js:[2m28478:17[22m[39m
+[90m [2m❯[22m createFiberFromElement node_modules/react-dom/cjs/react-dom.development.js:[2m28504:15[22m[39m
+[90m [2m❯[22m reconcileSingleElement node_modules/react-dom/cjs/react-dom.development.js:[2m13986:23[22m[39m
+[90m [2m❯[22m reconcileChildFibers node_modules/react-dom/cjs/react-dom.development.js:[2m14044:35[22m[39m
+[90m [2m❯[22m reconcileChildren node_modules/react-dom/cjs/react-dom.development.js:[2m19193:28[22m[39m
+[90m [2m❯[22m updateHostRoot node_modules/react-dom/cjs/react-dom.development.js:[2m19912:5[22m[39m
+[90m [2m❯[22m beginWork node_modules/react-dom/cjs/react-dom.development.js:[2m21654:14[22m[39m
+[90m [2m❯[22m beginWork$1 node_modules/react-dom/cjs/react-dom.development.js:[2m27465:14[22m[39m
+[90m [2m❯[22m performUnitOfWork node_modules/react-dom/cjs/react-dom.development.js:[2m26599:12[22m[39m
+[90m [2m❯[22m workLoopSync node_modules/react-dom/cjs/react-dom.development.js:[2m26505:5[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/10]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m2 passed[39m[22m[90m (3)[39m
+[2m      Tests [22m [1m[31m10 failed[39m[22m[2m | [22m[1m[32m19 passed[39m[22m[90m (29)[39m
+[2m   Start at [22m 22:23:51
+[2m   Duration [22m 538ms[2m (transform 71ms, setup 0ms, collect 176ms, tests 74ms, environment 459ms, prepare 94ms)[22m
+
