@@ -12,7 +12,28 @@ import org.springframework.transaction.annotation.Transactional;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Integration test for MonsterDao
+ * Integration test for MonsterDao.
+ *
+ * This is deliberately NOT a mock-based unit test like the Service tests -
+ * MonsterDao's entire job is building and running real SQL, so mocking it
+ * away would only prove that Mockito returns what you told it to. The only
+ * way to actually prove the SQL (especially the three-way visibility
+ * filtering) is correct is to run it against a real database.
+ *
+ * @SpringBootTest boots the full Spring context, so MonsterDao gets wired up
+ * with your real DataSource - the same one application.properties already
+ * points at. @Transactional on the test class wraps every @Test method in
+ * its own transaction that Spring automatically rolls back once the test
+ * finishes, so nothing written here is ever actually kept - your database
+ * will look exactly the same after running these as before.
+ *
+ * Because of that, this needs a real, reachable database: run
+ * database/create-database.sql once the normal way first, then just leave
+ * your local MySQL running while these tests execute. All test data below
+ * is prefixed "ZZTest" so it can't collide with, or be confused for,
+ * anything you created manually while using the app - and so count-based
+ * assertions stay accurate even if your dev database already has other
+ * monsters in it.
  */
 @SpringBootTest
 @Transactional
@@ -22,7 +43,10 @@ class MonsterDaoTest {
     private MonsterDao monsterDao;
 
     /**
-     * Creates and persists a monster for a test to use
+     * Creates and persists a monster for a test to use. creatorUsername must
+     * be a username that already exists (the table has a foreign key to
+     * users) - "admin" and "user" are always present since they're seeded
+     * by create-database.sql.
      */
     private Monster newMonster(String name, String monsterType, boolean isPublic, String creatorUsername) {
         Monster monster = new Monster(0, name, monsterType, 10, 1.0, 12,
@@ -139,6 +163,8 @@ class MonsterDaoTest {
             newMonster("ZZTest Default Someones Private", "Beast", false, "admin");
             newMonster("ZZTest Default Someones Public", "Beast", true, "admin");
 
+            // "garbage" is not "public"/"mine"/handled by the isAdmin branch, so this
+            // exercises the DAO's final else-branch: public-or-mine for a non-admin
             ResultsPage<Monster> results = monsterDao.search(
                     "user", false, "ZZTest Default", "garbage", "name", null, "asc", 0, 100);
 
@@ -158,10 +184,22 @@ class MonsterDaoTest {
 
         @Test
         void nameFilter_isCaseInsensitiveAndMatchesPartialNames() {
+            // The DAO's name filter is a plain "AND name LIKE ?" with
+            // params.add("%" + name + "%") - a single contiguous-substring
+            // match on the whole search string, not a word-by-word search
+            // where each word just has to appear somewhere in the name. So
+            // the query here has to actually be a substring of the target
+            // name - "ANCIENT RED" is (case-insensitively) a substring of
+            // "ZZTest Ancient Red Dragon", which is enough to demonstrate
+            // both case-insensitivity (different case than stored) and
+            // partial matching (neither the "ZZTest" prefix nor the
+            // "Dragon" suffix is included). A query like "zztest red
+            // dragon" is NOT a substring - "Ancient" sits in the middle and
+            // breaks it up - so it would (correctly) match nothing.
             newMonster("ZZTest Ancient Red Dragon", "Dragon", true, "admin");
 
             ResultsPage<Monster> results = monsterDao.search(
-                    "user", false, "zztest red dragon", "all", "name", null, "asc", 0, 100);
+                    "user", false, "ANCIENT RED", "all", "name", null, "asc", 0, 100);
 
             assertEquals(1, results.getTotalCount());
         }

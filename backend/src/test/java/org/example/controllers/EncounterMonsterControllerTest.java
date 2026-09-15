@@ -22,19 +22,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
- * Controller test for EncounterMonsterController - see MonsterControllerTest
- * for the general @WithMockUser / fixture-username explanation.
- *
- * The most important thing this file proves is the visibility fix made to
- * EncounterMonsterService.getMonsterList(): before that fix, GET on this
- * endpoint had no ownership or visibility check at all, so a logged-in
- * stranger could read the combatants of *any* encounter - including a
- * private one - just by knowing its id. The GetMonsterList nested class
- * below is what that fix is verified against, end-to-end over real HTTP.
- *
- * Every other action here (add/updateHealth/remove/etc.) uses canModify(),
- * not canView() - those require ownership (or admin), not just visibility,
- * so a stranger is rejected even on a *public* encounter.
+ * Controller test for EncounterMonsterController
  */
 @SpringBootTest
 @AutoConfigureMockMvc
