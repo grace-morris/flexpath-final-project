@@ -26,13 +26,17 @@ public class EncounterMonsterController {
     private EncounterMonsterService encounterMonsterService;
  
     /**
-     * gets a list of the monsters in the encounter
+     * Gets a list of the monsters in the encounter
      * @param encounterId the id of the encounter
+     * @param principal who is making the request
+     * @param authentication authentication instance for the user
      * @return the list of monsters in the encounter
      */
     @GetMapping
-    public List<EncounterMonster> getMonsterList(@PathVariable int encounterId) {
-        return encounterMonsterService.getMonsterList(encounterId);
+    public List<EncounterMonster> getMonsterList(@PathVariable int encounterId,
+                                                  Principal principal, Authentication authentication) {
+        return encounterMonsterService.getMonsterList(
+                encounterId, principal.getName(), AuthorizationHelper.isAdmin(authentication));
     }
  
     /**
@@ -51,7 +55,7 @@ public class EncounterMonsterController {
     }
  
     /**
-     * adjusts the monster's health
+     * Adjusts the monster's health
      * @param encounterId the id of the encounter
      * @param monsterId the id of the monster
      * @param body maps "currentHealth" to the current health from the request body
@@ -67,13 +71,6 @@ public class EncounterMonsterController {
                 encounterId, monsterId, newHitPoints, principal.getName(), AuthorizationHelper.isAdmin(authentication));
     }
  
-    /**
-     * deletes a monster
-     * @param encounterId id of the encounter
-     * @param monsterId id of the monster
-     * @param principal person making the request
-     * @param authentication authentication ticket for the user
-     */
     @DeleteMapping("/{monsterId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void remove(@PathVariable int encounterId, @PathVariable int monsterId,
@@ -83,7 +80,7 @@ public class EncounterMonsterController {
     }
  
     /**
-     * Sets the monster's initiative
+     * Sets the monster's initiative (turn order) for this encounter
      * @param encounterId the id of the encounter
      * @param monsterId the id of the monster
      * @param body maps "initiative" to the new initiative value
@@ -100,7 +97,7 @@ public class EncounterMonsterController {
     }
  
     /**
-     * sets whether the monster has used its reaction
+     * Sets whether the monster has used its reaction this round
      * @param encounterId the id of the encounter
      * @param monsterId the id of the monster
      * @param body maps "usedReaction" to whether the reaction has been used
@@ -117,7 +114,7 @@ public class EncounterMonsterController {
     }
  
     /**
-     * spends one legendary action
+     * Spends one legendary action
      * @param encounterId the id of the encounter
      * @param monsterId the id of the monster
      * @param principal who is making the request
