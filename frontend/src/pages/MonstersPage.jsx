@@ -22,6 +22,7 @@ function MonstersPage() {
   const [monsters, setMonsters] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
   const [name, setName] = useState("");
+  const [visibility, setVisibility] = useState("all");
   const [type, setType] = useState("");
   const [sortBy, setSortBy] = useState("name");
   const [direction, setDirection] = useState("asc");
@@ -30,22 +31,26 @@ function MonstersPage() {
   const [editingId, setEditingId] = useState(null);
 
   const loadMonsters = async () => {
-    const query = new URLSearchParams({ name, type, sortBy, direction, page, size: PAGE_SIZE }).toString();
+    const query = new URLSearchParams({ name, visibility, type, sortBy, direction, page, size: PAGE_SIZE }).toString();
     const results = await api.get(`/monsters?${query}`, auth.token);
     setMonsters(results.items);
     setTotalCount(results.totalCount);
   };
 
   // Tracks the last-loaded filter/sort values
-  const lastFilters = useRef({ name, type, sortBy, direction });
+  const lastFilters = useRef({ name, visibility, type, sortBy, direction });
 
   useEffect(() => {
     const prev = lastFilters.current;
     const filtersChanged =
-      prev.name !== name || prev.type !== type || prev.sortBy !== sortBy || prev.direction !== direction;
+      prev.name !== name || 
+      prev.visibility !== visibility ||
+      prev.type !== type || 
+      prev.sortBy !== sortBy || 
+      prev.direction !== direction;
 
     if (filtersChanged) {
-      lastFilters.current = { name, type, sortBy, direction };
+      lastFilters.current = { name, visibility, type, sortBy, direction };
       if (page !== 0) {
         setPage(0);
         return; 
@@ -54,7 +59,7 @@ function MonstersPage() {
 
     loadMonsters();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [name, type, sortBy, direction, page]);
+  }, [name, visibility, type, sortBy, direction, page]);
 
   const submitForm = async (e) => {
     e.preventDefault();

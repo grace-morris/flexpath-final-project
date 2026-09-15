@@ -21,6 +21,7 @@ function CharactersPage() {
   const [characters, setCharacters] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
   const [name, setName] = useState("");
+  const [visibility, setVisibility] = useState("all");
   const [characterClass, setCharacterClass] = useState("");
   const [sortBy, setSortBy] = useState("name");
   const [direction, setDirection] = useState("asc");
@@ -32,25 +33,26 @@ function CharactersPage() {
    * Load the current page of characters 
    */
   const loadCharacters = async () => {
-    const query = new URLSearchParams({ name, characterClass, sortBy, direction, page, size: PAGE_SIZE }).toString();
+    const query = new URLSearchParams({ name, visibility, characterClass, sortBy, direction, page, size: PAGE_SIZE }).toString();
     const results = await api.get(`/characters?${query}`, auth.token);
     setCharacters(results.items);
     setTotalCount(results.totalCount);
   };
 
   // Tracks the last-loaded filter/sort values
-  const lastFilters = useRef({ name, characterClass, sortBy, direction });
+  const lastFilters = useRef({ name, visibility, characterClass, sortBy, direction });
 
   useEffect(() => {
     const prev = lastFilters.current;
     const filtersChanged =
       prev.name !== name ||
+      prev.visibility !== visibility ||
       prev.characterClass !== characterClass ||
       prev.sortBy !== sortBy ||
       prev.direction !== direction;
 
     if (filtersChanged) {
-      lastFilters.current = { name, characterClass, sortBy, direction };
+      lastFilters.current = { name, visibility, characterClass, sortBy, direction };
       if (page !== 0) {
         setPage(0);
         return; // the resulting page change re-triggers this effect to load
@@ -59,7 +61,7 @@ function CharactersPage() {
 
     loadCharacters();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [name, characterClass, sortBy, direction, page]);
+  }, [name, visibility, characterClass, sortBy, direction, page]);
 
   const submitForm = async (e) => {
     e.preventDefault();
